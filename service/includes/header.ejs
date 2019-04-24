@@ -1,12 +1,14 @@
 <div class="header">
         
-    <div class="navigate">
+    <div>
         <img class="logo" src="site/images/logo.svg">
+        <span class="navigate">
         <a href="/">首页</a>
         <% var rows=linkList.home;
         for(var i=0;i<rows.length;i++){%>
             <a href="<%=rows[i].linkUrl%>"><%=rows[i].title%></a>
         <%}%>
+        </span>
 
     </div>
     <div class="login">

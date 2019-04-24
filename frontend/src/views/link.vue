@@ -10,10 +10,26 @@
         <Form :label-width="80">
          <FormItem label="标题"> <Input v-model="linkEdit.title"/></FormItem>
          <FormItem label="地址：">   
-         <Input v-model="linkEdit.linkUrl" v-if="type=='friend'"/>
-         <Select v-model="linkEdit.linkUrl" v-if="type!='friend'" :filterable="true" clearable="true">
-            <Option v-for="item in catalogList" :value="'/catalog?id='+item.id" :key="item.id">{{ item.title+'(/article?id='+item.id+')' }}</Option>
-        </Select>
+ 
+          <AutoComplete
+        v-model="linkEdit.linkUrl"
+        icon="ios-search"
+        placeholder="input here"
+        @on-select="listSelect"
+        style="width:300px">
+        <div class="demo-auto-complete-item">
+            <div class="demo-auto-complete-group">
+                <span>请选择分类</span>
+                 
+            </div>
+            <Option v-for="item in catalogList" :value="'/catalog?id='+item.id" :key="item.id">
+                <b class="demo-auto-complete-title">{{ item.title }}</b>
+                <span class="demo-auto-complete-count">({{ '/catalog?id='+item.id }} ) </span>
+            </Option>
+        </div>
+        
+    </AutoComplete>
+
          
           </FormItem>
          </Form>
@@ -73,6 +89,9 @@
         },
         created:function (){
             var self=this;
+                  this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+                    this.catalogList=result;
+                });
             this.loadList();
 
         },  
@@ -83,6 +102,9 @@
             tabChange(name){
                 this.type=name;
                 this.loadList();
+            },
+            listSelect(e){
+                debugger;
             },
             loadList(){
                 let params={type:this.type};
@@ -97,6 +119,8 @@
                     linkUrl:row.linkUrl
                 }; 
                 this.editVisible=true;
+
+                
                 this.catalogList=this.getCatalogList();
 
             },

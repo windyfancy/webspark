@@ -1,0 +1,42 @@
+.container {
+    margin: 0 auto;
+    width: 90%;
+    min-width: 930px;
+    /*background-attachment: scroll;*/
+    /*background: url(images/bg1.png) no-repeat;*/
+    background-position: 50% 0%;
+}
+
+.header {
+    height:80px;
+    line-height:80px;
+}
+.navigate{
+width:100%;
+}
+.logo{
+    width:45px;
+    height:45px;
+    vertical-align: middle;
+}
+.login{
+    position: absolute;
+    right:10px;
+    top:0px;
+}
+
+.main{
+    width: 80%;
+    min-height:800px;
+    display: inline-block;
+    vertical-align:top;
+}
+.sidebar{
+    width: 19%;
+    display: inline-block;
+    vertical-align:top;
+}
+.footer{
+
+    width:100%;
+}

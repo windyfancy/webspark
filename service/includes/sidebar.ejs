@@ -1,0 +1,20 @@
+<div class="sidebar">
+    <div>分类</div>
+    <ul>
+        <% var rows=catalogList;
+        for(var i=0;i<rows.length;i++){%>
+            <li catalogId="<%=rows[i].id%>">
+                <a href="<%='/catalog?id='+rows[i].id%>"><%=rows[i].title%>(<%=rows[i].count%>)</a></h2>
+            </li>
+        <%}%>
+    </ul>
+    <div>常用链接</div>
+    <ul>
+            <% var rows=linkList.friend;
+            for(var i=0;i<rows.length;i++){%>
+             <li>
+                <a href="<%=rows[i].linkUrl%>"><%=rows[i].title%></a></h2>
+             </li>
+            <%}%>
+    </ul>
+</div>

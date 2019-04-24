@@ -1,2 +1,26 @@
-<h1><%=msg%>,this is the homepage</h2>
-<p>the template file location is /service/index.ejs</p>
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="/site/css/global.css"/>
+    </head>
+   <body>
+<div class="container">
+    <%- include("includes/header.ejs") %>
+    <div class="main">
+            <% var rows=articleList;
+            for(var i=0;i<rows.length;i++){%>
+                <div articleId="<%=rows[i].id%>">
+                    <h2><a href="<%= '/article?id='+rows[i].id%>"><%=rows[i].title%></a></h2>
+                    <div><%=rows[i].summary%></div>
+                </div>
+            <%}%>
+
+    </div>
+    <%- include("includes/sidebar.ejs") %>
+    
+    <%- include("includes/footer.ejs") %>
+    
+</div>
+
+</body>
+</html>
+ 

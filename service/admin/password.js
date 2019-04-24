@@ -12,20 +12,18 @@ module.exports= {
         }
         var data=this.request.data;
         if(data){
-            var password=crypto.createHash('md5').update(data.password).digest("hex");
+            var passwordOld=crypto.createHash('md5').update(data.passwordOld).digest("hex");
             var passwordNew=crypto.createHash('md5').update(data.passwordNew).digest("hex");
 
             this.database.update("wb_user",{
                 password:passwordNew
             }, {
                 userName: session["userName"],
-                password:password}
+                password:passwordOld}
             ).then((result)=>{
-               if(result.length>0){
-                   var userName=result[0].userName;
+               if(result.affectedRows==1){
                    this.render(JSON.stringify({
-                        code:"OK",
-                        userName:userName
+                        code:"OK"
                     }));
                }else{
                     this.render(JSON.stringify({

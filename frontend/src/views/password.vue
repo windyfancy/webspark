@@ -18,9 +18,9 @@
 <div>
     
 <div class="passwordForm">
-<p><label>原密码：</label><Input type="password" v-model="password" placeholder="Password"  style="width: 300px" /></p>
-<p><label>新密码：</label><Input type="password" v-model="passwordNew" placeholder="Password"  style="width: 300px" /></p>
-<p><label>再次输入新密码：</label><Input type="password" v-model="passwordNew2" placeholder="Password"  style="width: 300px" /></p>
+<p><label>原密码：</label><Input type="password" v-model="passwordOld" placeholder="原密码"  style="width: 300px" /></p>
+<p><label>新密码：</label><Input type="password" v-model="passwordNew" placeholder="新密码"  style="width: 300px" /></p>
+<p><label>再次输入新密码：</label><Input type="password" v-model="passwordNew2" placeholder="再次输入新密码"  style="width: 300px" /></p>
 <p style="text-align:center"><Button type="primary" @click="doModify" style="width: 120px" >修改密码</Button></p>
  
 
@@ -48,16 +48,16 @@
         methods:{
             doModify(){
                 let params={
-                    password:this.password,
+                    passwordOld:this.passwordOld,
                     passwordNew:this.passwordNew
                 }
                 if(this.passwordNew==this.passwordNew2){
                     this.httpRequest("/admin/password",params).then(  (e)=>{
                         if(e.code=="OK"){
-                            this.$Message.info({content:"修改成功"})
+                            this.$Message.info({content:"密码修改成功"})
                             
                         }else{
-                            this.$Message.error({content:"修改失败"}) 
+                            this.$Message.error({content:"密码修改失败"}) 
                         }
                     })
                 }else{

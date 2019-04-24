@@ -8,7 +8,7 @@ module.exports= {
             params={catalogId:data.catalogId};
         }
         this.database.select("wb_article",params,{
-            count:true,
+            orderBy:"createTime desc",
             pageIndex:data.pageIndex,
             pageSize:data.pageSize
         }).then( (result)=>{

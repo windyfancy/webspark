@@ -26,7 +26,7 @@
      <i-editor v-model="content" :config="uploadConfig" :img-url="uploadComplete"></i-editor>
     
 </div>
-<p><Button @click="doSave">发布</Button></p>
+<p><Button type="primary" @click="doSave">发布</Button></p>
 
 </div>
 </template>
@@ -70,9 +70,9 @@
             loadContent(){
                 if(this.$route.query["id"]){
                     this.id=this.$route.query["id"];
-                    this.httpRequest("/admin/articleList",{id:this.id}).then(  (e)=>{
-                        if(e.rows.length>0){
-                            let row=e.rows[0];
+                    this.httpRequest("/admin/articleList",{id:this.id}).then(  (rows)=>{
+                        if(rows.length>0){
+                            let row=rows[0];
                             this.title=row.title;
                             this.catalogId=row.catalogId;
                             this.catalogIdOrigin=row.catalogId;
@@ -92,14 +92,20 @@
                 }
             },
             doSave(){
+                let summary=this.content.substr(0,512);
                 let params={
                     title:this.title,
                     catalogId:this.catalogId,
-                    content:this.content
+                    content:this.content,
+                    summary:summary,
+                    modifyTime:new Date()
                 }
                 if(this.id){
                     params.id=this.id;
+                }else{
+                    params.createTime=new Date();
                 }
+                
                 this.httpRequest("/admin/articleEdit",params).then(  (e)=>{
                     this.$Message.info({content:"发布成功"});
 

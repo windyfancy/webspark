@@ -1,5 +1,11 @@
+const dataQuery=require("./common/dataQuery.js");
+
 module.exports= {  
   onRequest() {  
-      this.render({msg:'hello111'});
+   
+    dataQuery.getRenderData(this).then( (renderObj)=>{
+      this.render(renderObj);
+    })
+      
   }
 }

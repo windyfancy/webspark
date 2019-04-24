@@ -29,7 +29,12 @@ module.exports= {
                     articleCount:results[2].totalCount
                 }
         
-                var links={};
+                var links={
+                    home:[],
+                    sidebar:[],
+                    friend:[],
+                    footer:[]
+                };
                 results[1].forEach(function (item){
                 let type=item.type;
                 if(!links[type]){

@@ -3,12 +3,13 @@
         <link type="text/css" rel="stylesheet" href="/site/css/global.css"/>
     </head>
    <body>
+<%- include("includes/header.ejs") %>
 <div class="container">
-    <%- include("includes/header.ejs") %>
+    
     <div class="main">
             <% var rows=articleList;
             for(var i=0;i<rows.length;i++){%>
-                <div articleId="<%=rows[i].id%>">
+                <div class="card">
                     <h2><a href="<%= '/article?id='+rows[i].id%>"><%=rows[i].title%></a></h2>
                     <div><%=rows[i].summary%></div>
                 </div>

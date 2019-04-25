@@ -18,6 +18,7 @@ li {
     margin: 0 auto;
     width: 90%;
     min-width: 930px;
+    min-height: 750px;
     text-align: center;
     /*background-attachment: scroll;*/
     /*background: url(images/bg1.png) no-repeat;*/
@@ -68,6 +69,15 @@ width:100%;
     border-radius: .25rem;
     box-shadow: 0 0 0.25rem rgba(0,0,0,.08), 0 0.5rem 0.75rem rgba(0,0,0,.14);
     
+}
+.page a{
+    color:black;
+}
+.page a:hover{
+    color:orangered;
+}
+.page .current{
+    color:rgb(0, 162, 255);
 }
 .sidebar{
     text-align:left;

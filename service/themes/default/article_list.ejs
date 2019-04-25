@@ -1,0 +1,31 @@
+<% var rows=articleList;
+for(var i=0;i<rows.length;i++){%>
+    <div articleId="<%=rows[i].id%>">
+        <h2><a href="<%= '/article?id='+rows[i].id%>"><%=rows[i].title%></a></h2>
+        <div><%=rows[i].summary%></div>
+    </div>
+<%}%>
+
+<div class="page">
+<% 
+var pageSize=20;
+var pageCount=Math.ceil(articleCount/pageSize);
+var current=1;
+if(context.request.query["page"]){
+    current=context.request.query["page"];
+}
+//var start=1;end=pageCount;
+var start=Math.max(1,current-5);
+var end=Math.min(pageCount,current+5);
+
+for(var i=start;i<=end;i++){
+    var url=context.request.makeUrl({page:i});
+    var className="";
+    if(i==current){
+        className="current"
+    }
+    
+%>
+<a href="<%=url%>" class="<%=className%>"><%=i%></a>
+<% }%>
+</div>

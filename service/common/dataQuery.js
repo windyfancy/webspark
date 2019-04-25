@@ -15,17 +15,22 @@ module.exports= {
                 params.id=options.articleId;
                 columns=["*"];
             }
+            let pageIndex=1;
+            if(ctx.request.query["page"]){
+                pageIndex=ctx.request.query["page"];
+            }
             var p3=ctx.database.select("wb_article",params,{
                 orderBy:"createTime desc",
                 columns:columns,
-                pageIndex:options.pageIndex || 1,
+                pageIndex:pageIndex,
                 pageSize:20
             })
         
             Promise.all([p1,p2,p3]).then( (results)=>{
                 var renderObj={
+                    context:ctx,
                     themeName:"default",
-                    themeDir:"/themes/default",
+                    themeDir:"themes/default",
                     catalogList:results[0],
                     articleList:results[2].rows,
                     articleCount:results[2].totalCount

@@ -24,6 +24,8 @@ module.exports= {
         
             Promise.all([p1,p2,p3]).then( (results)=>{
                 var renderObj={
+                    themeName:"default",
+                    themeDir:"/themes/default",
                     catalogList:results[0],
                     articleList:results[2].rows,
                     articleCount:results[2].totalCount

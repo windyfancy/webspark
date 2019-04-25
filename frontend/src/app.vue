@@ -1,20 +1,26 @@
 <style>
+html,body{height:100%;margin:0px;padding:0px;}
+ul,li{list-style: none;}
+.wrap{
+    height:100%;
+    background: white;
+    overflow: hidden;
+}
 .leftMenu{
     overflow:hidden;
     float:left;
-    width:180px;
+    width:210px;
     height:100%;
-    margin:15px;
+    padding:10px 15px;
     line-height:25px;
-    font-size:15px;
-    
+    background: whitesmoke;
 }
 .main{
     margin:15px;
     overflow:hidden;
     float:left;
 
-    width: calc(100% - 320px)
+    width: calc(100% - 240px)
 }
 .header{
     padding-left:10px;
@@ -30,19 +36,35 @@
     color:whitesmoke;
     vertical-align: middle;
 }
+.leftMenu li{
+    line-height: 35px;
+}
+.leftMenu a{
+    vertical-align: middle;
+    margin:5px;color:black;
+    font-size:14px;
+}
+.leftMenu i{
+    vertical-align: middle;
+    color:gray;
+    font-size:18px;
+}
 </style>
 <template>
-<div>
+<div class="wrap">
 <div class="header">WebSpark<span> webcontext,the most simplest node.js web framework</span></div>
 <ul class="leftMenu" v-if="showNav">
-<li><a href="javascript:" @click="navigate('articleList')">文章管理</a>
+<li><Icon type="md-clipboard" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
 <div style="padding-left:12px;">
  <Tree :data="catalogTree" @on-select-change="catalogSelect"></Tree>
 </div>
 </li>
-<li><a href="javascript:" @click="navigate('catalog')">栏目管理</a></li>
-<li><a href="javascript:" @click="navigate('link')">链接管理</a></li>
-<li><a href="javascript:" @click="navigate('password')">修改密码</a></li>
+<li><Icon type="ios-settings" /><a href="javascript:" @click="navigate('siteConfig')">站点配置</a></li>
+<li><Icon type="md-folder" /><a href="javascript:" @click="navigate('catalog')">栏目管理</a></li>
+<li><Icon type="md-pricetag" /><a href="javascript:" @click="navigate('tags')">标签管理</a></li>
+<li><Icon type="md-git-branch" /><a href="javascript:" @click="navigate('links')">链接管理</a></li>
+<li><Icon type="ios-contact" /><a href="javascript:" @click="navigate('users')">用户管理</a></li>
+<li><Icon type="md-lock" /><a href="javascript:" @click="navigate('password')">修改密码</a></li>
 </ul>
 <div class="main">
 <transition name="slide">

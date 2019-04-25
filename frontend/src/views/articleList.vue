@@ -52,6 +52,7 @@
         created:function (){
            this.$router.afterEach(  (to,from)=>{
                if(to.name=="articleList"){
+                   this.pageIndex=1
                    this.loadList();
                }
            })

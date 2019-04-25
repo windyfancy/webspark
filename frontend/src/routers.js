@@ -7,9 +7,13 @@ import login from './views/login.vue'
 import home from './views/home.vue'
 import articleList from './views/articleList.vue'
 import articleEdit from './views/articleEdit.vue'
-import link from './views/link.vue'
+import links from './views/links.vue'
 import catalog from './views/catalog.vue'
 import password from './views/password.vue'
+import tags from './views/tags.vue'
+import siteConfig from './views/siteConfig.vue'
+import users from './views/users.vue'
+
 import test from './views/test.vue'
 
 
@@ -23,10 +27,13 @@ const routes = [
       { name:"home",path: '/home', component: home  },
     { name:"articleList",path: '/articleList', component: articleList  },
     { name:"articleEdit",path: '/articleEdit', component: articleEdit  },
-    { name:"link",path: '/link', component: link },
+    { name:"links",path: '/links', component: links },
     { name:"catalog",path: '/catalog', component: catalog  },
     { name:"password",path: '/password', component: password  },
 
+    { name:"tags",path: '/tags', component: tags },
+    { name:"siteConfig",path: '/siteConfig', component: siteConfig },
+    { name:"users",path: '/users', component: users },
 
 
     { name:"test",path: '/test', component: test  }

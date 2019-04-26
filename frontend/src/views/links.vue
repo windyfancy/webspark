@@ -10,27 +10,18 @@
         <Form :label-width="80">
          <FormItem label="标题"> <Input v-model="linkEdit.title"/></FormItem>
          <FormItem label="地址：">   
- 
-          <AutoComplete
-        v-model="linkEdit.linkUrl"
-        icon="ios-search"
-        placeholder="input here"
-        @on-select="listSelect"
-        style="width:300px">
-        <div class="demo-auto-complete-item">
-            <div class="demo-auto-complete-group">
-                <span>请选择分类</span>
-                 
-            </div>
-            <Option v-for="item in catalogList" :value="'/catalog?id='+item.id" :key="item.id">
-                <b class="demo-auto-complete-title">{{ item.title }}</b>
-                <span class="demo-auto-complete-count">({{ '/catalog?id='+item.id }} ) </span>
-            </Option>
-        </div>
-        
-    </AutoComplete>
 
-         
+    <Select v-model="linkEdit.linkUrl" v-if="!inputable"   style="width:200px"  @on-query-change="queryChange" @on-open-change="openChange">
+        <OptionGroup label="选择栏目">
+        <Option v-for="item in catalogList" :value="'/catalog?id='+item.id" :key="item.id">{{ item.title+' (/catalog?id='+item.id+ ')'}}</Option>
+        </OptionGroup>
+        <OptionGroup label="选择标签">
+        <Option v-for="item in tagList" :value="'/tag?id='+item.id" :key="item.id">{{item.title+' (/tag?id='+item.id+')' }}</Option>
+        </OptionGroup>
+    </Select>
+
+        <Input type="text" v-model="linkEdit.linkUrl" v-if="inputable" style="width:200px"/>
+         <Button @click="inputable=!inputable">{{inputable?'下拉选择':'手工输入'}}</Button>
           </FormItem>
          </Form>
     </Modal>
@@ -76,6 +67,7 @@
                     
                 ],
                 type:"home",
+                inputable:false,
                 linkList:[],
                 editVisible:false,
                 linkEdit:{
@@ -83,15 +75,19 @@
                     title:"",
                     linkUrl:null
                 },
-                catalogList:[]
+                catalogList:[],
+                tagList:[]
             } 
  
         },
         created:function (){
             var self=this;
-                  this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
-                    this.catalogList=result;
-                });
+            this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+                this.catalogList=result;
+            });
+            this.httpRequest("/admin/tagList",{}).then(  (result)=>{
+                this.tagList=result;
+            });
             this.loadList();
 
         },  
@@ -104,7 +100,13 @@
                 this.loadList();
             },
             listSelect(e){
-                debugger;
+                //debugger;
+            },
+            queryChange(e){
+                 //debugger;
+            },
+            openChange(e){
+                 //debugger;
             },
             loadList(){
                 let params={type:this.type};

@@ -20,12 +20,14 @@
         <Option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</Option>
 </Select>
 
+
 </p>
 
 <div class="editor">
      <i-editor v-model="content" :config="uploadConfig" :img-url="uploadComplete"></i-editor>
     
 </div>
+
 <p><Button type="primary" @click="doSave">发布</Button></p>
 
 </div>

@@ -5,6 +5,7 @@
     top: 50%;
     left: 50%;
     width:420px;
+    height:190px;
     margin-top: -150px;
     margin-left: -210px;
 

@@ -1,5 +1,5 @@
 const dataQuery=require("./common/dataQuery.js");
-const markdown = require( "markdown" ).markdown;
+const marked = require('marked');
 
 
 module.exports= {  
@@ -7,7 +7,14 @@ module.exports= {
     if(this.request.query["id"]){
         dataQuery.getRenderData(this,{articleId:this.request.query["id"]}).then( (renderObj)=>{
             let article=renderObj.articleList[0];
-            article.content=markdown.toHTML(article.content);
+
+            const renderer = new marked.Renderer();
+ 
+            article.content=marked(article.content,{
+              breaks: true,
+              headerIds: false,
+              renderer: renderer
+          });
 
             this.render(renderObj);
           })

@@ -1,18 +1,20 @@
 <template>
 <div>
     
-        <p style="line-height:50px;"><Button type="primary" icon="ios-add" @click="addNew">添加文章</Button></p>
+        <p style="line-height:50px;"><a-button type="primary" icon="ios-add" @click="addNew">添加文章</a-button></p>
 
     <p>
-     <Table :columns="columns1" :data="listData">
-        <template slot-scope="{ row, index }" slot="action">
-             <Button @click="handleEdit(row, index)">编辑</Button>
-             <Button @click="handleDelete(row, index)">删除</Button>
+     <a-table :columns="columns1" :dataSource="listData" :pagination="false">
+        <template slot-scope="text, row, index " slot="action">
+             <a-button @click="handleEdit(row, index)">编辑</a-button>
+             <a-button @click="handleDelete(row, index)">删除</a-button>
         </template>
-     </Table>
-
-      <Page :current.sync="pageIndex" :pageSize="pageSize" :total="totalCount"  @on-change="pageChange"/>
-    </p>
+     </a-table>
+     </p>
+<p>
+      <a-pagination :hideOnSinglePage=true  v-model="pageIndex" :pageSize="pageSize" :total="totalCount"  @change="pageChange"/>
+</p>  
+    
 
  
 </div>
@@ -26,25 +28,31 @@
                  columns1:[
                     {
                         title: 'id',
+                        dataIndex: 'id',
                         key: 'id'
                     },
                     {
                         title: '标题',
+                        dataIndex: 'title',
                         key: 'title'
                     },
                     {
                         title: '编号',
+                        dataIndex: 'code',
                         key: 'code'
+                        
                     },
                      {
                         title: '操作',
-                        slot: 'action'
+                        scopedSlots: { customRender: 'action' }
+                         
                     }
                     
                 ],
                 catalogId:null,
                 pageIndex:1,
                 pageSize:5,
+                totalCount:0,
                 listData:[]
             } 
  
@@ -62,7 +70,8 @@
             this.loadList();
         },
         methods:{
-            pageChange(e){
+            pageChange(idx){
+                this.pageIndex=idx;
                 this.loadList();
             },
             loadList(){
@@ -90,10 +99,10 @@
                
             },
             handleDelete(row, index){
-                this.$Modal.confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
+                this.$confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
                      this.httpRequest("/admin/articleDelete",{id:row.id}).then(  (e)=>{
                         let catalogId=row.catalogId;
-                        this.$Message.info({content:"删除成功"})
+                        this.$message.info("删除成功")
                         this.loadList();
 
                         var params={catalog:[catalogId]};

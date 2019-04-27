@@ -54,17 +54,17 @@ ul,li{list-style: none;}
 <div class="wrap">
 <div class="header">WebSpark<span> webcontext,the most simplest node.js web framework</span></div>
 <ul class="leftMenu" v-if="showNav">
-<li><Icon type="md-clipboard" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
+<li><a-icon type="edit" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
 <div style="padding-left:12px;">
- <Tree :data="catalogTree" @on-select-change="catalogSelect"></Tree>
+ <a-tree :treeData="catalogTree" @select="catalogSelect"></a-tree>
 </div>
 </li>
-<li><Icon type="ios-settings" /><a href="javascript:" @click="navigate('siteConfig')">站点配置</a></li>
-<li><Icon type="md-folder" /><a href="javascript:" @click="navigate('catalog')">栏目管理</a></li>
-<li><Icon type="md-pricetag" /><a href="javascript:" @click="navigate('tags')">标签管理</a></li>
-<li><Icon type="md-git-branch" /><a href="javascript:" @click="navigate('links')">链接管理</a></li>
-<li><Icon type="ios-contact" /><a href="javascript:" @click="navigate('users')">用户管理</a></li>
-<li><Icon type="md-lock" /><a href="javascript:" @click="navigate('password')">修改密码</a></li>
+<li><a-icon type="setting" /><a href="javascript:" @click="navigate('siteConfig')">站点配置</a></li>
+<li><a-icon type="folder" /><a href="javascript:" @click="navigate('catalog')">栏目管理</a></li>
+<li><a-icon type="tag" /><a href="javascript:" @click="navigate('tags')">标签管理</a></li>
+<li><a-icon type="share-alt" /><a href="javascript:" @click="navigate('links')">链接管理</a></li>
+<li><a-icon type="user" /><a href="javascript:" @click="navigate('users')">用户管理</a></li>
+<li><a-icon type="lock" /><a href="javascript:" @click="navigate('password')">修改密码</a></li>
 </ul>
 <div class="main">
 <transition name="slide">
@@ -122,9 +122,8 @@ ul,li{list-style: none;}
                 return window.innerHeight-96+"px"
               
             },
-            catalogSelect(e){
-                let id=e[0].id;
-                this.$router.replace({path:"/articleList",query:{id:id}})
+            catalogSelect(key,info){
+                this.$router.replace({path:"/articleList",query:{id:key}})
             },
             loadCatalog(){
                 this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
@@ -145,7 +144,7 @@ ul,li{list-style: none;}
                 function findChild(parentId){
                     var result=[];
                     data.forEach((item)=>{
-                        var obj={id:item.id,title:item.title};
+                        var obj={id:item.id,key:item.id,title:item.title};
                         if(item.parentId==parentId){
                             result.push(obj)
                         }

@@ -9,39 +9,40 @@
 <template>
 <div>
 <p>
-    <Breadcrumb separator=">">
- <BreadcrumbItem v-for="(item) in crumbList" :to="item.url">{{item.title}}</BreadcrumbItem>
- </Breadcrumb>
+    <a-breadcrumb :routes="crumbList" separator=">" >
+  
+ </a-breadcrumb>
 </p>
-<p class="line" >标题：<Input type="text" v-model="title" style="width:320px"/></p>
+<p class="line" >标题：<a-input type="text" v-model="title" style="width:320px"/></p>
 <p class="line">栏目：
     
-<Select v-model="catalogId" style="width:200px">
-        <Option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</Option>
-</Select>
+<a-select v-model="catalogId" style="width:200px">
+        <a-select-option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</a-select-option>
+</a-select>
 
 
 </p>
 
 <div class="editor">
-     <i-editor v-model="content" :config="uploadConfig" :img-url="uploadComplete"></i-editor>
+  <!--   <i-editor v-model="content" :config="uploadConfig" :img-url="uploadComplete"></i-editor> -->
+  <MarkEditor height="300px" v-model="content"></MarkEditor>
     
 </div>
 
-<p><Button type="primary" @click="doSave">发布</Button></p>
+<p><a-button type="primary" @click="doSave">发布</a-button></p>
 
 </div>
 </template>
 <script>
-
+import MarkEditor from '../components/mark.editor.vue';
     export default {
-       
+        components: { MarkEditor },
         data () {
             return {
                 crumbList: [
                 {
-                    title: "文章管理",
-                    url: "/articleList"
+                    breadcrumbName: "文章管理",
+                    path: "/articleList"
                 }
                 ],
                 id:null,
@@ -84,7 +85,7 @@
                                 return item.id==this.catalogId;
                             })
                             if(catalogInfo.length>0){
-                                this.crumbList.push({title:catalogInfo[0].title,url:"/articleList?id="+catalogInfo[0].id})
+                                this.crumbList.push({breadcrumbName:catalogInfo[0].title,path:"/articleList?id="+catalogInfo[0].id})
                             }
                         }
                     });
@@ -109,7 +110,7 @@
                 }
                 
                 this.httpRequest("/admin/articleEdit",params).then(  (e)=>{
-                    this.$Message.info({content:"发布成功"});
+                    this.$message.info("发布成功");
 
                    
                     var params={catalog:[this.catalogId]};

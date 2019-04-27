@@ -1,7 +1,10 @@
 import Vue from "vue"
 import Router from './routers.js'
-import iView from 'iview';
-import iEditor from 'iview-editor';
+ 
+
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
+ 
 
 import App from './app.vue'
  
@@ -14,8 +17,9 @@ Vue.use({
   
      
 })
-Vue.use(iView);
-Vue.use(iEditor);
+ 
+Vue.use(Antd);
+ 
 
 Vue.mixin({methods: {
     httpRequest:Utils.httpRequest,

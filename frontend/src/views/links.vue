@@ -1,37 +1,38 @@
 <template>
 <div>
-     <Tabs @on-click="tabChange">
-        <TabPane label="首页导航" name="home"></TabPane>
-        <TabPane label="侧边栏" name="sidebar"></TabPane>
-        <TabPane label="友情链接" name="friend"></TabPane>
-    </Tabs>
-    <p style="line-height:50px;"><Button type="primary" icon="ios-add" @click="linkEdit={};editVisible=true">添加链接</Button></p>
-    <Modal title="链接" v-model="editVisible" @on-ok="doSave">
-        <Form :label-width="80">
-         <FormItem label="标题"> <Input v-model="linkEdit.title"/></FormItem>
-         <FormItem label="地址：">   
+     <a-tabs defaultActiveKey="1" @change="tabChange">
+    <a-tab-pane tab="首页导航" key="home"></a-tab-pane>
+    <a-tab-pane tab="侧边栏" key="sidebar"></a-tab-pane>
+    <a-tab-pane tab="友情链接" key="friend"></a-tab-pane>
+  </a-tabs>
+ 
+    <p style="line-height:50px;"><a-button type="primary" icon="ios-add" @click="linkEdit={};editVisible=true">添加链接</a-button></p>
+    <a-modal title="链接" v-model="editVisible" @ok="doSave">
+        <a-form :label-width="80">
+         <a-form-item label="标题"> <a-input v-model="linkEdit.title"/></a-form-item>
+         <a-form-item label="地址：">   
 
-    <Select v-model="linkEdit.linkUrl" v-if="!inputable"   style="width:200px"  @on-query-change="queryChange" @on-open-change="openChange">
-        <OptionGroup label="选择栏目">
-        <Option v-for="item in catalogList" :value="'/catalog?id='+item.id" :key="item.id">{{ item.title+' (/catalog?id='+item.id+ ')'}}</Option>
-        </OptionGroup>
-        <OptionGroup label="选择标签">
-        <Option v-for="item in tagList" :value="'/tag?id='+item.id" :key="item.id">{{item.title+' (/tag?id='+item.id+')' }}</Option>
-        </OptionGroup>
-    </Select>
+    <a-select v-model="linkEdit.linkUrl" v-if="!inputable"   style="width:200px"  @on-query-change="queryChange" @on-open-change="openChange">
+        <a-select-opt-group label="选择栏目">
+        <a-select-option v-for="item in catalogList" :value="'/catalog?id='+item.id" :key="item.id">{{ item.title+' (/catalog?id='+item.id+ ')'}}</a-select-option>
+        </a-select-opt-group>
+        <a-select-opt-group label="选择标签">
+        <a-select-option v-for="item in tagList" :value="'/tag?id='+item.id" :key="item.id">{{item.title+' (/tag?id='+item.id+')' }}</a-select-option>
+        </a-select-opt-group>
+    </a-select>
 
-        <Input type="text" v-model="linkEdit.linkUrl" v-if="inputable" style="width:200px"/>
-         <Button @click="inputable=!inputable">{{inputable?'下拉选择':'手工输入'}}</Button>
-          </FormItem>
-         </Form>
-    </Modal>
+        <a-input type="text" v-model="linkEdit.linkUrl" v-if="inputable" style="width:200px"/>
+         <a-button @click="inputable=!inputable">{{inputable?'下拉选择':'手工输入'}}</a-button>
+          </a-form-item>
+         </a-form>
+    </a-modal>
     <p>
-     <Table :columns="columns1" :data="linkList">
-        <template slot-scope="{ row, index }" slot="action">
-             <Button @click="handleEdit(row, index)">编辑</Button>
-             <Button @click="handleDelete(row, index)">删除</Button>
+     <a-table :columns="columns1" :dataSource="linkList" :pagination="false">
+        <template slot-scope="text, row, index" slot="action">
+             <a-button @click="handleEdit(row, index)">编辑</a-button>
+             <a-button @click="handleDelete(row, index)">删除</a-button>
         </template>
-     </Table>
+     </a-table>
     </p>
 
 </div>
@@ -46,23 +47,28 @@
                 columns1:[
                     {
                         title: 'id',
+                        dataIndex:'id',
                         key: 'id'
                     },
                     {
                         title: '标题',
+                        dataIndex:'title',
                         key: 'title'
                     },
                     {
                         title: '地址',
+                        dataIndex:'linkUrl',
                         key: 'linkUrl'
                     },
                      {
                         title: '分类',
+                        dataIndex:'type',
                         key: 'type'
                     },
                      {
                         title: '操作',
-                        slot: 'action'
+                        //slot: 'action'
+                        scopedSlots: { customRender: 'action' }
                     }
                     
                 ],
@@ -96,6 +102,7 @@
         },
         methods:{
             tabChange(name){
+           
                 this.type=name;
                 this.loadList();
             },
@@ -127,31 +134,34 @@
 
             },
             handleDelete(row, index){
-                this.$Modal.confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
+                this.$confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
                      this.httpRequest("/admin/linkDelete",{id:row.id}).then(  (e)=>{
  
-                        this.$Message.info({content:"删除成功"})
+                        this.$message.info("删除成功")
                         this.loadList();
                     });
                 }})
                 
 
             },
-            doSave(){
+            doSave(resolve){
                 let params=this.linkEdit;
                 params.type=this.type;
                 if(params.id==null){
                     delete params.id;
                 }
+                
                 this.httpRequest("/admin/linkEdit",params).then(  (e)=>{
- 
+
                     if(e.affectedRows>0){
-                         this.$Message.info({content:"编辑成功"})
-                         this.loadList();
+                        this.$message.info("编辑成功")
+                        this.loadList();
+                        this.editVisible=false;
                     }else{
                         
                     }
                 })
+                
             }
         }
     };

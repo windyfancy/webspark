@@ -5,7 +5,7 @@
     top: 50%;
     left: 50%;
     width:420px;
-    height:190px;
+    height:210px;
     margin-top: -150px;
     margin-left: -210px;
 
@@ -23,9 +23,12 @@
 </style>
 <template>
 <div class="loginForm">
-<p><label>用户名：</label><Input type="text" v-model="userName" placeholder="Username" style="width: 300px" /></p>
-<p><label>密码：</label><Input type="password" v-model="password" placeholder="Password"  style="width: 300px" /></p>
-<p style="text-align:center"><Button type="primary" @click="doLogin" style="width: 120px" >登录</Button></p>
+<p><label>用户名：</label>
+<a-input type="text" v-model="userName" placeholder="Username" style="width: 300px" /></p>
+
+<p><label>密码：</label>
+<a-input  type="password" v-model="password" placeholder="Password"  style="width: 300px" /></p>
+<p style="text-align:center"><a-button type="primary" @click="doLogin" style="width: 120px" >登录</a-button></p>
  
 
 </div>
@@ -36,15 +39,7 @@
        
         data () {
             return {
-               ruleInline: {
-                    user: [
-                        { required: true, message: 'Please fill in the user name', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: 'Please fill in the password.', trigger: 'blur' },
-                        { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
-                    ]
-                },
+
                 userName:null,
                 password:null,
             } 

@@ -1,25 +1,26 @@
 <template>
 <div>
-    <p style="line-height:50px;"><Button type="primary" icon="ios-add" @click="catalogEdit={};editVisible=true">添加栏目</Button></p>
-    <Modal title="栏目编辑" v-model="editVisible" @on-ok="doSave">
-        <Form :label-width="80">
-         <FormItem label="栏目名称："> <Input v-model="catalogEdit.title"/></FormItem>
-         <FormItem label="上级栏目 ：">  
-     <Select v-model="catalogEdit.parentId" style="width:200px" :clearable="true">
-        <Option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</Option>
-    </Select>
-    </FormItem>
+    <p style="line-height:50px;">
+        <a-button type="primary" icon="ios-add" @click="catalogEdit={};editVisible=true">添加栏目</a-button></p>
+    <a-modal title="栏目编辑" v-model="editVisible" @ok="doSave">
+        <a-form :label-width="80">
+         <a-form-item label="栏目名称："> <a-input v-model="catalogEdit.title"/></a-form-item>
+         <a-form-item label="上级栏目 ：">  
+     <a-select v-model="catalogEdit.parentId" style="width:200px" :clearable="true">
+        <a-select-option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</a-select-option>
+    </a-select>
+    </a-form-item>
    
-        <FormItem label="栏目编号：">   <Input v-model="catalogEdit.code"/> </FormItem>
-           </Form>
-    </Modal>
+        <a-form-item label="栏目编号：">   <a-input v-model="catalogEdit.code"/> </a-form-item>
+           </a-form>
+    </a-modal>
     <p>
-     <Table :columns="columns1" :data="catalogList">
-        <template slot-scope="{ row, index }" slot="action">
-             <Button @click="handleEdit(row, index)">编辑</Button>
-             <Button @click="handleDelete(row, index)">删除</Button>
+     <a-table :columns="columns1" :dataSource="catalogList" pagination="false">
+        <template slot-scope="text, row, index" slot="action">
+             <a-button @click="handleEdit(row, index)">编辑</a-button>
+             <a-button @click="handleDelete(row, index)">删除</a-button>
         </template>
-     </Table>
+     </a-table>
     </p>
 
 </div>
@@ -34,19 +35,23 @@
                 columns1:[
                     {
                         title: 'id',
+                        dataIndex:"id",
                         key: 'id'
                     },
                     {
                         title: '名称',
+                        dataIndex:"title",
                         key: 'title'
                     },
                     {
                         title: '编号',
+                        dataIndex:"code",
                         key: 'code'
                     },
                      {
                         title: '操作',
-                        slot: 'action'
+                         scopedSlots: { customRender: 'action' },
+                        //slot: 'action'
                     }
                     
                 ],
@@ -87,32 +92,35 @@
 
             },
             handleDelete(row, index){
-                this.$Modal.confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
+                this.$confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
                      this.httpRequest("/admin/catalogDelete",{id:row.id}).then(  (e)=>{
  
-                        this.$Message.info({content:"删除成功"})
+                        this.$message.info("删除成功")
                         this.loadList();
                     });
                 }})
                 
 
             },
-            doSave(){
+            doSave(resolve){
                  let params=this.catalogEdit;
 
                 if(params.id==null){
                     delete params.id;
                 }
+                
                 this.httpRequest("/admin/catalogEdit",params).then(  (e)=>{
- 
+
                     if(e.affectedRows>0){
-                         this.$Message.info({content:"编辑成功"})
-                         this.loadList();
-                         this.$parent.$emit("catalogChange");
+                        this.$message.info("编辑成功")
+                        this.loadList();
+                        this.editVisible=false;
+                        this.$parent.$emit("catalogChange");
                     }else{
                         
                     }
                 })
+                
             }
         }
     };

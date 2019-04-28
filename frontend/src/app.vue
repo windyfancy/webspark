@@ -4,7 +4,7 @@ ul,li{list-style: none;}
 .wrap{
     height:100%;
     background: white;
-    overflow: hidden;
+    overflow: auto;
 }
 .leftMenu{
     overflow:hidden;
@@ -58,7 +58,7 @@ ul,li{list-style: none;}
 <ul class="leftMenu" v-if="showNav">
 <li><a-icon type="edit" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
 <div style="padding-left:12px;">
- <a-tree :treeData="catalogTree" @select="catalogSelect"></a-tree>
+ <a-directory-tree :treeData="catalogTree" @select="catalogSelect"></a-directory-tree>
 </div>
 </li>
 <li><a-icon type="setting" /><a href="javascript:" @click="navigate('siteConfig')">站点配置</a></li>
@@ -125,7 +125,8 @@ ul,li{list-style: none;}
               
             },
             catalogSelect(key,info){
-                this.$router.replace({path:"/articleList",query:{id:key}})
+                
+                this.$router.replace({path:"/articleList",query:{id:key[0]}})
             },
             loadCatalog(){
                 this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
@@ -146,7 +147,7 @@ ul,li{list-style: none;}
                 function findChild(parentId){
                     var result=[];
                     data.forEach((item)=>{
-                        var obj={id:item.id,key:item.id,title:item.title};
+                        var obj={id:item.id,key:item.id,title:item.title };
                         if(item.parentId==parentId){
                             result.push(obj)
                         }
@@ -156,6 +157,8 @@ ul,li{list-style: none;}
                         let child=findChild(item.id);
                         if(child && child.length>0){
                             item.children=child;
+                        }else{
+                            item.isLeaf=true;
                         }
                     })
                     

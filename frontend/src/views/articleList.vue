@@ -51,7 +51,7 @@
                 ],
                 catalogId:null,
                 pageIndex:1,
-                pageSize:5,
+                pageSize:20,
                 totalCount:0,
                 listData:[]
             } 
@@ -62,9 +62,9 @@
 
         },  
         beforeRouteUpdate(to,from,next){
+            next();
             this.pageIndex=1
             this.loadList();
-            next();
         },
         mounted:function (){
             this.loadList();
@@ -81,7 +81,8 @@
                     pageSize:this.pageSize
                  };
                  if(this.$route.query["id"]){
-                     this.catalogId=this.$route.query["id"];
+                     this.catalogId=Number(this.$route.query["id"].toString());
+                    
                      params["catalogId"]=this.catalogId;
                  }
                 this.httpRequest("/admin/articleList",params).then(  (result)=>{

@@ -14,13 +14,23 @@
  </a-breadcrumb>
 </p>
 <p class="line" >标题：<a-input type="text" v-model="title" style="width:320px"/></p>
-<p class="line">栏目：
-    
+<p class="line">
+    栏目：    
 <a-select v-model="catalogId" style="width:200px">
         <a-select-option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</a-select-option>
 </a-select>
 
 
+
+</p>
+<p>
+标签：    
+<a-select style="width:300px"  mode="tags" v-model="tagSelected"> 
+        <a-select-option v-for="item in tagList" :value="item.id.toString()" :key="item.id.toString()">
+            {{ item.title }}
+        </a-select-option>
+</a-select>
+ 
 </p>
 
 <div class="editor">
@@ -52,18 +62,21 @@ import MarkEditor from '../components/mark.editor.vue';
                 catalogId:null,
                 catalogTitle:"",
                 content:null,
-                catalogList:[]
+                catalogList:[],
+                tagSelected:[],
+                tagList:[]
 
             } 
  
         },
         created:function (){
-            
-
-
             this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
                 this.catalogList=result;
                 this.loadContent();
+            });
+
+            this.httpRequest("/admin/tagList",{}).then(  (result)=>{
+                    this.tagList=result;
             });
 
         },  
@@ -96,6 +109,8 @@ import MarkEditor from '../components/mark.editor.vue';
                 }
             },
             doSave(){
+                console.log(this.tagSelected);
+                debugger;
                 let summary=this.content.substr(0,512);
                 let params={
                     title:this.title,

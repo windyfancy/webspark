@@ -125,7 +125,7 @@
                      this.insertText(">");
                     break;
                      case "table":
-                     this.insertText("\nA   | B    | C\n----|----|----\n 1  |","      |    \n  2  |      |     \n")
+                     this.insertText("\n\nA   | B    | C\n----|----|----\n 1  |","      |    \n  2  |      |     \n")
                      break;
                      case "code":
                      this.insertText("```\n","\n```");

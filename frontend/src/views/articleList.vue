@@ -85,6 +85,7 @@
                      params["catalogId"]=this.catalogId;
                  }
                 this.httpRequest("/admin/articleList",params).then(  (result)=>{
+                    debugger;
                      this.listData=result.rows;
                      this.totalCount=result.totalCount;
                 })

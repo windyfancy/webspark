@@ -25,7 +25,7 @@
 
 <div class="editor">
   <!--   <i-editor v-model="content" :config="uploadConfig" :img-url="uploadComplete"></i-editor> -->
-  <MarkEditor height="300px" v-model="content"></MarkEditor>
+  <MarkEditor height="300px" v-model="content" :uploadUrl="uploadUrl" @uploadComplete="uploadComplete"></MarkEditor>
     
 </div>
 
@@ -47,6 +47,7 @@ import MarkEditor from '../components/mark.editor.vue';
                 ],
                 id:null,
                 title:"",
+                uploadUrl:"/admin/uploadFiles",
                 catalogIdOrigin:null,
                 catalogId:null,
                 catalogTitle:"",
@@ -121,8 +122,9 @@ import MarkEditor from '../components/mark.editor.vue';
                     
                 })
             },
-            uploadComplete(res){
-                return "/getFiles?name="+res.fileName;
+            uploadComplete(e){
+                var obj=JSON.parse(e.response)
+                 e.returnValue="/getFiles?name="+obj.fileName;
             }
         }
     };

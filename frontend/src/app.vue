@@ -28,7 +28,9 @@ ul,li{list-style: none;}
     height:50px;
     font-size: 24px;
     color:white;
-    background: linear-gradient(to right,#01aab4,#007cdb);
+    /*background: linear-gradient(to right,#01aab4,#007cdb);*/
+
+    /*background-image: linear-gradient(to right,#1278f6,#00b4aa);*/
 }
 .header span{
     padding-left:10px;

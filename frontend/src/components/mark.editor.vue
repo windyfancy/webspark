@@ -15,6 +15,13 @@
     overflow: auto;
     border:1px solid lightgray;
 }
+.md-preview ul>li {
+    list-style-type: disc;
+}
+.md-preview ol>li {
+    list-style-type: decimal;
+}
+
 .md-editor textarea{
     width:100%;
 }
@@ -27,8 +34,8 @@
                 <li><a href="javascript:" @click="insertCode('ol')">列表</a></li>
                 <li><a href="javascript:" @click="insertCode('li')">列表</a></li>
                 <li><a href="javascript:" @click="insertCode('bold')">加粗</a></li>
-                <li><a href="javascript:" @click="insertCode('image')">图片</a>
-                    <MarkUpload> </MarkUpload>
+                <li style="position:relative"><a href="javascript:" @click="insertCode('image')">图片</a>
+                    <MarkUpload :uploadUrl="uploadUrl" @progress="uploadProgress" @complete="uploadComplete"> </MarkUpload>
                 </li>
             </ul>
         </div>
@@ -47,63 +54,26 @@
         name: 'MarkEditor',
         components: { MarkUpload, MarkPreview },
         props: {
-            config: {
-                type: Object,
-                default () {
-                    return {
-                        action: '/',
-                        maxSize: 5120
-                    }
-                }
+            height: {
+                type: [String],
+                default: ''
             },
-             height: {
+            uploadUrl: {
                 type: String,
                 default: ''
             },
             value: {
                 type: String,
                 default: ''
-            },
-            beforeUpload: {
-                type: Function,
-                default () {
-                    return true;
-                }
-            },
-            imgUrl: {
-                type: Function,
-                default (res) {
-                    return res;
-                }
-            },
-            highlight: {
-                type: Function,
-                default (code) {
-                    return code;
-                }
-            },
-            paste: {
-                type: Boolean,
-                default: false
             }
+
         },
         data () {
             return {
-                tabType: 'write',  // write || preview || summary
                 content: this.value,
-                showMdTip: false,
-                showDiff: false,
-                showDiffEditor: false,
-                summary: ''
             };
         },
         watch: {
-            showDiff (val) {
-                // 避免出现输入框的滚动条
-                this.$nextTick(() => {
-                    this.showDiffEditor = val;
-                });
-            },
             value (val) {
                 this.content = val;
             },
@@ -112,50 +82,37 @@
                 this.$emit('input', val);
             }
         },
-        computed: {
-//            coverUrl () {
-//                return config.filePrefix + this.cover + '/large';
-//            }
-        },
+
         methods: {
-            handleChangeTab (name) {
-                if (name === 'write') {
-                    this.$nextTick(() => {
-                        this.$refs.content.focus();
-                    });
-                } else if (name === 'preview') {
-                    if (this.changeScroll) {
-                        this.$nextTick(() => {
-                            const md = this.$refs.markdown.$el;
-                            window.scrollTo(0, md.offsetTop);
-                        });
-                    }
-                } else if (name === 'summary') {
-                    this.$nextTick(() => {
-                        this.$refs.summary.focus();
-                    });
+            uploadComplete(e){
+                this.$emit("uploadComplete",e);
+                if(e.returnValue){
+                    var imgCode="![]("+e.returnValue+")"
+                    this.insertText(imgCode);
                 }
+                
             },
             insertCode(type){
                  
                 switch(type){
                     case "headline":
-                        this.insertText("# ");
+                        this.insertText("\n# ");
                     break;
                      case "ol":
-                      this.insertText("* ");
+                      this.insertText("\n* ");
                     break;
                      case "li":
-                     this.insertText("1. ");
+                     this.insertText("\n1. ");
                     break;
                      case "bold":
                      this.insertText("****");
                      
                     break;
                 }
+
             },
-             insertText(str) {
-                 const obj = this.$refs.textarea;
+            insertText(str) {
+                const obj = this.$refs.textarea;
                 if (document.selection) {
                     const sel = document.selection.createRange();
                     sel.text = str;
@@ -170,23 +127,16 @@
                 } else {
                     obj.value += str;
                 }
-            },
-            handleUploadSuccess (res) {
-//                const url = config.filePrefix + res.key + '/large';
-                const url = this.imgUrl(res);
-                const md_link = `![](${url})`;
-                const $content = this.$refs.content.$refs.textarea;
-                this.insertText($content, md_link);
+                this.content=obj.value;
                 this.$nextTick(() => {
-                    this.content = $content.value;  // 不加此行，改变了 value 不会重绘，原数据则没有改变
-                    this.$refs.content.focus();
+                    obj.focus();
                 });
             },
-         
             focus () {
-                if (this.$refs.content) {
-                    this.$refs.content.focus();
-                }
+                const obj = this.$refs.textarea;
+                this.$nextTick(() => {
+                    obj.focus();
+                });
             }
         }
     }

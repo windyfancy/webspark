@@ -1,11 +1,14 @@
 <style>
+.md_toolbar ul{
+    padding:0px;
+}
 .md_toolbar li{
+    padding:0px;
     display: inline-block;
 }
 .md-editor {
     display: inline-block;
     width:49%;
-    border:1px solid lightgray;
 }
 .md-preview {
     display: inline-block;
@@ -15,10 +18,7 @@
     overflow: auto;
     border:1px solid lightgray;
 }
-.md-editor textarea,.md-editor textarea:focus{
- 
-    border:none;
-}
+
 .md-preview ul>li {
     list-style-type: disc;
 }
@@ -29,6 +29,9 @@
 .md-editor textarea{
     width:100%;
 }
+
+
+
 </style>
 <template>
     <div >

@@ -108,9 +108,30 @@ import MarkEditor from '../components/mark.editor.vue';
                     this.catalogId=Number(this.$route.query["catalogId"]);
                 }
             },
-            doSave(){
-                console.log(this.tagSelected);
+            checkAndCreateTag(){
                 debugger;
+                return new Promise((resolve)=>{
+                    let tagNew=[]
+                    this.tagSelected.forEach((item)=>{
+                        if(!item.match(/\d+/)){
+                            tagNew.push(item)    
+                        }
+                    })
+
+                    if(tagNew.length>0){
+                         this.httpRequest("/admin/tagEdit",{tagList:tagNew}).then(  (e)=>{
+                             resolve(e.list);
+                         });
+                    }else{
+                        resolve([]);
+                    }
+
+                })
+                
+            },
+            async doSave(){
+                console.log(this.tagSelected);
+                let newTagList=await this.checkAndCreateTag();
                 let summary=this.content.substr(0,512);
                 let params={
                     title:this.title,
@@ -125,7 +146,11 @@ import MarkEditor from '../components/mark.editor.vue';
                     params.createTime=new Date();
                 }
                 
-                this.httpRequest("/admin/articleEdit",params).then(  (e)=>{
+                this.httpRequest("/admin/articleEdit",params).then( async (e)=>{
+ 
+                    if(!this.articleId){
+                        this.articleId=e.insertId;
+                    }
                     this.$message.info("发布成功");
 
                    
@@ -133,9 +158,34 @@ import MarkEditor from '../components/mark.editor.vue';
                     if(this.catalogId!=this.catalogIdOrigin){
                          params.catalog.push(this.catalogIdOrigin);
                      }
+
+                   
+                     if(this.tagSelected.length>0){
+                        var arr=this.tagSelected.filter(function (item){
+                             return item.match(/\d+/)
+                         })
+                        this.tagSelected=arr.concat(newTagList)
+                        this.updateTag(this.articleId,this.tagSelected);
+                        params.tag=newTagList
+                        
+                     } 
                     this.$parent.$emit("articleCountChange",params)
+                      
+                    
                     
                 })
+            },
+            updateTag(articleId,tagList){
+                return new Promise((resolve)=>{
+                    var params={
+                        articleId:articleId,
+                        tagList:tagList
+                    }
+                    this.httpRequest("/admin/articleTag",params).then(  (e)=>{
+                        resolve();
+                    });
+
+                });
             },
             uploadComplete(e){
                 var obj=JSON.parse(e.response)

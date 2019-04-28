@@ -139,7 +139,7 @@ ul,li{list-style: none;}
             },
             updateCount(obj){
                this.httpRequest("/admin/catalogStats",obj).then(  (result)=>{
-                    debugger;
+                     
                 });
             },
             buildTree(data){

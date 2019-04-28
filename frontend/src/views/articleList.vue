@@ -58,14 +58,14 @@
  
         },
         created:function (){
-           this.$router.afterEach(  (to,from)=>{
-               if(to.name=="articleList"){
-                   this.pageIndex=1
-                   this.loadList();
-               }
-           })
+          
 
         },  
+        beforeRouteUpdate(to,from,next){
+            this.pageIndex=1
+            this.loadList();
+            next();
+        },
         mounted:function (){
             this.loadList();
         },
@@ -85,7 +85,6 @@
                      params["catalogId"]=this.catalogId;
                  }
                 this.httpRequest("/admin/articleList",params).then(  (result)=>{
-                    debugger;
                      this.listData=result.rows;
                      this.totalCount=result.totalCount;
                 })

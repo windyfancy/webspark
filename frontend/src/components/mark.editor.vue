@@ -5,15 +5,19 @@
 .md-editor {
     display: inline-block;
     width:49%;
+    border:1px solid lightgray;
 }
 .md-preview {
     display: inline-block;
     width:50%;
     height:100%;
     vertical-align: top;
-    padding:5px;
     overflow: auto;
     border:1px solid lightgray;
+}
+.md-editor textarea,.md-editor textarea:focus{
+ 
+    border:none;
 }
 .md-preview ul>li {
     list-style-type: disc;
@@ -31,16 +35,21 @@
         <div class="md_toolbar">
             <ul>
                 <li><a href="javascript:" @click="insertCode('headline')">标题</a></li>
-                <li><a href="javascript:" @click="insertCode('ol')">列表</a></li>
-                <li><a href="javascript:" @click="insertCode('li')">列表</a></li>
                 <li><a href="javascript:" @click="insertCode('bold')">加粗</a></li>
+                <li><a href="javascript:" @click="insertCode('ol')">有序列表</a></li>
+                <li><a href="javascript:" @click="insertCode('li')">无序列表</a></li>
+                <li><a href="javascript:" @click="insertCode('line')">分隔线</a></li>
+                <li><a href="javascript:" @click="insertCode('link')">链接</a></li>
+                <li><a href="javascript:" @click="insertCode('quot')">引用</a></li>
+                <li><a href="javascript:" @click="insertCode('code')">代码</a></li>
+                <li><a href="javascript:" @click="insertCode('table')">表格</a></li>
                 <li style="position:relative"><a href="javascript:" @click="insertCode('image')">图片</a>
                     <MarkUpload :uploadUrl="uploadUrl" @progress="uploadProgress" @complete="uploadComplete"> </MarkUpload>
                 </li>
             </ul>
         </div>
         <div class="md-editor">
-             <textarea v-model="content" :style="{height:height}" ref="textarea"/>
+             <textarea v-model="content" :style="{height:height}" ref="textarea" @keyup="onKeyup"/>
         </div><div class="md-preview" :style="{height:height}">
         <MarkPreview :content="content" :highlight="highlight" ref="Markdown">
         </MarkPreview>
@@ -56,7 +65,7 @@
         props: {
             height: {
                 type: [String],
-                default: ''
+                default: '400px'
             },
             uploadUrl: {
                 type: String,
@@ -93,7 +102,6 @@
                 
             },
             insertCode(type){
-                 
                 switch(type){
                     case "headline":
                         this.insertText("\n# ");
@@ -105,27 +113,64 @@
                      this.insertText("\n1. ");
                     break;
                      case "bold":
-                     this.insertText("****");
-                     
+                     this.insertText("**","**");
+                    break;
+                     case "link":
+                     this.insertText("[Link](http://",")");
+                    break;
+                     case "line":
+                     this.insertText("\n\n---\n");
+                    break;
+                     case "quot":
+                     this.insertText(">");
+                    break;
+                     case "table":
+                     this.insertText("\nA   | B    | C\n----|----|----\n 1  |","      |    \n  2  |      |     \n")
+                     break;
+                     case "code":
+                     this.insertText("```\n","\n```");
                     break;
                 }
 
             },
-            insertText(str) {
+            onKeyup(e){
+                if(e.keyCode==13){
+                    
+                    const obj = this.$refs.textarea;
+                    let startPos = obj.selectionStart,
+                    endPos = obj.selectionEnd;
+                    var lineArr=obj.value.substring(0,endPos-1).split("\n");
+                    var line=lineArr[lineArr.length-1];
+                    var numReg=/(\d+)\. /;
+                    if(line.match(/\* /)){
+                        this.insertText("* ");
+                    }else if(line.match(numReg)){
+                        var idx=Number(line.match(numReg)[1]);
+                        idx++;
+                        this.insertText(idx+". ");
+                    }
+
+                }
+            },
+            insertText(prefix,postfix) {
+                if(!postfix){postfix=""}
                 const obj = this.$refs.textarea;
+                
                 if (document.selection) {
                     const sel = document.selection.createRange();
-                    sel.text = str;
+                    sel.text = prefix;
                 } else if ( typeof obj.selectionStart === 'number' && typeof obj.selectionEnd === 'number' ) {
                     let startPos = obj.selectionStart,
                         endPos = obj.selectionEnd,
                         cursorPos = startPos,
                         tmpStr = obj.value;
-                    obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
-                    cursorPos += str.length;
+                    let selectText=tmpStr.substring(startPos,endPos);
+                    obj.value = tmpStr.substring(0, startPos) + prefix+ selectText+postfix+ tmpStr.substring(endPos, tmpStr.length);
+                    cursorPos += prefix.length;
+
                     obj.selectionStart = obj.selectionEnd = cursorPos;
                 } else {
-                    obj.value += str;
+                    obj.value += prefix;
                 }
                 this.content=obj.value;
                 this.$nextTick(() => {

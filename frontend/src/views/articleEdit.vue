@@ -25,7 +25,7 @@
 
 <div class="editor">
   <!--   <i-editor v-model="content" :config="uploadConfig" :img-url="uploadComplete"></i-editor> -->
-  <MarkEditor height="300px" v-model="content" :uploadUrl="uploadUrl" @uploadComplete="uploadComplete"></MarkEditor>
+  <MarkEditor v-model="content" :uploadUrl="uploadUrl" @uploadComplete="uploadComplete"></MarkEditor>
     
 </div>
 
@@ -52,8 +52,8 @@ import MarkEditor from '../components/mark.editor.vue';
                 catalogId:null,
                 catalogTitle:"",
                 content:null,
-                catalogList:[],
-                uploadConfig:{action: "/admin/uploadFiles",maxSize: 5120,uploadForm: {}}
+                catalogList:[]
+
             } 
  
         },

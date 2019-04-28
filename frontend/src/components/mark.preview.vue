@@ -28,15 +28,15 @@
                 //debugger;
  
 
-                  const renderer = new marked.Renderer();
+                const renderer = new marked.Renderer();
 
                 const _this = this;
                 this.html = marked(this.content, {
                     breaks: true,
                     headerIds: false,
-                    highlight (code) {
-                        return _this.highlight(code);
-                    },
+                    // highlight (code) {
+                    //     return _this.highlight(code);
+                    // },
                     renderer: renderer
                 });
             }

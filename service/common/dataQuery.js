@@ -22,28 +22,20 @@ module.exports= {
                 pageIndex=ctx.request.query["page"];
             }
 
+            var sql=`SELECT a.id,title,summary,(select group_concat(tagId) from wb_article_tag c where c.articleId=a.id) as tagList 
+            FROM wb_article a inner join wb_article_tag b 
+            on (a.id=b.articleId)`
+
             if(options.tagId){
                 params["b.tagId"]=options.tagId;
-                var p4=ctx.database.select("wb_article a",params,{
-                    join:{
-                        table:"wb_article_tag b",
-                        on:{
-                            "a.id":"b.articleId"
-                        }
-                    },
-                    orderBy:"createTime desc",
-                    columns:["a.id,a.title,a.summary"],
-                    pageIndex:pageIndex,
-                    pageSize:20
-                })
-            }else{
-                var p4=ctx.database.select("wb_article",params,{
-                    orderBy:"createTime desc",
-                    columns:columns,
-                    pageIndex:pageIndex,
-                    pageSize:20
-                })
-            }
+                
+            } 
+
+            var p4=ctx.database.select(sql,params,{
+                orderBy:"a.createTime desc",
+                pageIndex:pageIndex,
+                pageSize:20
+            })
         
             Promise.all([p1,p2,p3,p4]).then( (results)=>{
                 var renderObj={

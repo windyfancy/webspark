@@ -39,8 +39,9 @@
             <ul>
                 <li><a href="javascript:" @click="insertCode('headline')">标题</a></li>
                 <li><a href="javascript:" @click="insertCode('bold')">加粗</a></li>
+                <li><a href="javascript:" @click="insertCode('italic')">斜体</a></li>
                 <li><a href="javascript:" @click="insertCode('ol')">有序列表</a></li>
-                <li><a href="javascript:" @click="insertCode('li')">无序列表</a></li>
+                <li><a href="javascript:" @click="insertCode('ul')">无序列表</a></li>
                 <li><a href="javascript:" @click="insertCode('line')">分隔线</a></li>
                 <li><a href="javascript:" @click="insertCode('link')">链接</a></li>
                 <li><a href="javascript:" @click="insertCode('quot')">引用</a></li>
@@ -109,29 +110,32 @@
                     case "headline":
                         this.insertText("\n# ");
                     break;
-                     case "ol":
+                     case "ul":
                       this.insertText("\n* ");
                     break;
-                     case "li":
+                     case "ol":
                      this.insertText("\n1. ");
                     break;
                      case "bold":
-                     this.insertText("**","**");
+                        this.insertText("**","**");
+                    break;
+                    case "italic":
+                        this.insertText("*","*");
                     break;
                      case "link":
-                     this.insertText("[Link](http://",")");
+                        this.insertText("[Link](http://",")");
                     break;
                      case "line":
-                     this.insertText("\n\n---\n");
+                        this.insertText("\n\n---\n");
                     break;
                      case "quot":
-                     this.insertText(">");
+                        this.insertText("\n>");
                     break;
                      case "table":
-                     this.insertText("\n\nA   | B    | C\n----|----|----\n 1  |","      |    \n  2  |      |     \n")
+                        this.insertText("\n\nA   | B    | C\n----|----|----\n 1  |","      |    \n  2  |      |     \n")
                      break;
                      case "code":
-                     this.insertText("```\n","\n```");
+                        this.insertText("```\n","\n```");
                     break;
                 }
 

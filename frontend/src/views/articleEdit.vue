@@ -25,10 +25,10 @@
 </p>
 <p>
 标签：    
-<a-select style="width:300px"  mode="tags" v-model="tagSelected"> 
-        <a-select-option v-for="item in tagList" :value="item.id.toString()" :key="item.id.toString()">
-            {{ item.title }}
-        </a-select-option>
+<a-select style="width:300px"  mode="tags" v-model="tagSelected" :labelInValue="true"> 
+    <a-select-option v-for="item in tagList" :value="item.key" :key="item.key">
+        {{ item.label }}
+    </a-select-option>
 </a-select>
  
 </p>
@@ -55,7 +55,7 @@ import MarkEditor from '../components/mark.editor.vue';
                     path: "/articleList"
                 }
                 ],
-                id:null,
+                articleId:null,
                 title:"",
                 uploadUrl:"/admin/uploadFiles",
                 catalogIdOrigin:null,
@@ -70,24 +70,42 @@ import MarkEditor from '../components/mark.editor.vue';
  
         },
         created:function (){
-            this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+            if(this.$route.query["id"]){
+                this.articleId=Number(this.$route.query["id"]);
+            }
+
+        },  
+        mounted:function (){
+             this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
                 this.catalogList=result;
                 this.loadContent();
             });
 
             this.httpRequest("/admin/tagList",{}).then(  (result)=>{
-                    this.tagList=result;
+                this.tagList=result.map(function (item){
+                    return {label:item.title,key:item.id.toString()}
+                });
+                    
+                this.httpRequest("/admin/articleTag",{articleId:this.articleId}).then(  (e)=>{
+                    var arr=[];
+                    e.forEach((item)=>{
+                         arr.push({label:item.title,key:item.tagId.toString()})
+                    })
+                    this.tagSelected=arr;
+                });
+                
             });
 
-        },  
-        mounted:function (){
- 
         },
         methods:{
+            getTagById(tagId){
+                this.tagList.filter((item)=>{
+                    return item.id==tagId
+                })
+            },
             loadContent(){
-                if(this.$route.query["id"]){
-                    this.id=this.$route.query["id"];
-                    this.httpRequest("/admin/articleList",{id:this.id}).then(  (rows)=>{
+                if(this.articleId){
+                    this.httpRequest("/admin/articleList",{id:this.articleId}).then(  (rows)=>{
                         if(rows.length>0){
                             let row=rows[0];
                             this.title=row.title;
@@ -109,17 +127,23 @@ import MarkEditor from '../components/mark.editor.vue';
                 }
             },
             checkAndCreateTag(){
-                debugger;
+               
                 return new Promise((resolve)=>{
                     let tagNew=[]
-                    this.tagSelected.forEach((item)=>{
-                        if(!item.match(/\d+/)){
-                            tagNew.push(item)    
+                    for(var i=0;i<this.tagSelected.length;i++){
+                     let item=this.tagSelected[i];
+                        if(item.key==item.label){
+                            tagNew.push(item.key);
+                            this.tagSelected.splice(i,1)
+                            i--;
                         }
-                    })
+                    }
 
                     if(tagNew.length>0){
                          this.httpRequest("/admin/tagEdit",{tagList:tagNew}).then(  (e)=>{
+                             tagNew.forEach( (labelName,idx)=>{
+                                 this.tagSelected.push({key:e.list[idx].toString(),label:labelName})
+                             })
                              resolve(e.list);
                          });
                     }else{
@@ -131,7 +155,7 @@ import MarkEditor from '../components/mark.editor.vue';
             },
             async doSave(){
                 console.log(this.tagSelected);
-                let newTagList=await this.checkAndCreateTag();
+                await this.checkAndCreateTag();
                 let summary=this.content.substr(0,512);
                 let params={
                     title:this.title,
@@ -140,8 +164,8 @@ import MarkEditor from '../components/mark.editor.vue';
                     summary:summary,
                     modifyTime:new Date()
                 }
-                if(this.id){
-                    params.id=this.id;
+                if(this.articleId){
+                    params.id=this.articleId;
                 }else{
                     params.createTime=new Date();
                 }
@@ -161,12 +185,8 @@ import MarkEditor from '../components/mark.editor.vue';
 
                    
                      if(this.tagSelected.length>0){
-                        var arr=this.tagSelected.filter(function (item){
-                             return item.match(/\d+/)
-                         })
-                        this.tagSelected=arr.concat(newTagList)
                         this.updateTag(this.articleId,this.tagSelected);
-                        params.tag=newTagList
+                        params.tag=this.tagSelected
                         
                      } 
                     this.$parent.$emit("articleCountChange",params)
@@ -177,11 +197,16 @@ import MarkEditor from '../components/mark.editor.vue';
             },
             updateTag(articleId,tagList){
                 return new Promise((resolve)=>{
+                    var arr=[];
+                    tagList.forEach(function (item){
+                        arr.push(item.key);
+                    })
+                  
                     var params={
                         articleId:articleId,
-                        tagList:tagList
+                        tagList: arr
                     }
-                    this.httpRequest("/admin/articleTag",params).then(  (e)=>{
+                    this.httpRequest("/admin/articleTagEdit",params).then(  (e)=>{
                         resolve();
                     });
 

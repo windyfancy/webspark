@@ -1,18 +1,11 @@
 module.exports= {  
     onRequest() {  
         var data=this.request.data;
-        if(data.tagList){
-            var promiseList=[];
-            data.tagList.forEach((tagId)=>{
-                let p=this.database.replace("wb_article_tag",{
-                    articleId:data.articleId,
-                    tagId,tagId
-                })
-                promiseList.push(p)
+        if(data.articleId){
+            this.database.query("select a.*,b.title from wb_article_tag a inner join wb_tag b on(a.tagId=b.id) where articleId=?",[data.articleId]).then((result)=>{
+                this.render(JSON.stringify(result));
             })
-            Promise.all(promiseList).then( ()=>{
-                this.render(JSON.stringify({code:"OK"}));
-            })
+             
             
         }
         

@@ -8,7 +8,7 @@
     height:210px;
     margin-top: -150px;
     margin-left: -210px;
-
+    overflow:hidden;
     border-radius: 8px;
     background-image: linear-gradient(-180deg,#fff,#f4f4f4);
     box-shadow: 2px 2px 5px rgba(0,0,0,.1), -2px -2px 5px rgba(0,0,0,.1);

@@ -86,7 +86,7 @@ import MarkEditor from '../components/mark.editor.vue';
                     return {label:item.title,key:item.id.toString()}
                 });
                     
-                this.httpRequest("/admin/articleTag",{articleId:this.articleId}).then(  (e)=>{
+                this.httpRequest("/admin/articleTagList",{articleId:this.articleId}).then(  (e)=>{
                     var arr=[];
                     e.forEach((item)=>{
                          arr.push({label:item.title,key:item.tagId.toString()})
@@ -186,7 +186,13 @@ import MarkEditor from '../components/mark.editor.vue';
                    
                      if(this.tagSelected.length>0){
                         this.updateTag(this.articleId,this.tagSelected);
-                        params.tag=this.tagSelected
+
+                        debugger;
+                        var arr=[]
+                        this.tagSelected.forEach(function (item){
+                            arr.push(Number(item.key))
+                        })
+                        params.tag=arr;
                         
                      } 
                     this.$parent.$emit("articleCountChange",params)

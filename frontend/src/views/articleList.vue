@@ -3,8 +3,8 @@
     
         <p style="line-height:50px;">
             <a-button type="primary" icon="plus" @click="addNew">添加文章</a-button>
-            <a-button icon="scissor" @click="moveItems">移动</a-button>
-            <a-button icon="tags" @click="tagItems">打标签</a-button>
+            <a-button icon="scissor" @click="showMove">移动</a-button>
+            <a-button icon="tags" @click="showTag">打标签</a-button>
             <a-button icon="delete" @click="deleteItems()">删除</a-button>
         </p>
 
@@ -20,7 +20,20 @@
       <a-pagination :hideOnSinglePage=true  v-model="pageIndex" :pageSize="pageSize" :total="totalCount"  @change="pageChange"/>
 </p>  
     
+<a-modal title="移动到栏目" v-model="moveVisible" @ok="moveItems">
+  选择栏目
+     <a-select v-model="moveTarget" style="width:200px" showSearch>
+        <a-select-option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</a-select-option>
+    </a-select>
+</a-modal>
 
+<a-modal title="设置标签" v-model="tagVisible" @ok="tagItems">
+  选择标签
+     <a-select v-model="tagTarget" style="width:200px" showSearch>
+        <a-select-option v-for="item in tagList" :value="item.id" :key="item.id">{{ item.title }}</a-select-option>
+    </a-select>
+    <a-checkbox v-model="tagRemoveOrigin">移除原有标签</a-checkbox>
+</a-modal>
  
 </div>
 </template>
@@ -60,7 +73,12 @@
                 totalCount:0,
                 listData:[],
                 selectedIds:[],
-                selectedList:[]
+                selectedList:[],
+                moveVisible:false,
+                tagVisible:false,
+                moveTarget:[],
+                tagTarget:[],
+                tagRemoveOrigin:true
             } 
  
         },
@@ -134,27 +152,66 @@
                     });
                 }})
             },
+            showMove(){
+                 this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+                    this.catalogList=result;
+                    this.moveVisible=true;
+                });
+ 
+            },
             moveItems(){
-                var rows=this.selectedList;
-                 params={id:[]};
-                 rows.forEach((item)=>{
-                        params.id.push(item.id);
-                    })
+                var params={articleList:this.selectedIds,catalogId:this.moveTarget};
+                console.log(params);
+
+                this.httpRequest("/admin/articleMove",params).then(  (result)=>{
+                    this.moveVisible=false;
+                    this.$message.info("移动成功")
+                    this.loadList();
+                    this.updateCount();
+                });
+            },
+            showTag(){
+                this.httpRequest("/admin/tagList",{}).then(  (result)=>{
+                   this.tagList=result;
+                   this.tagVisible=true;
+                });
+                
             },
             tagItems(){
-
+                var params={
+                    articleList:this.selectedIds,
+                    tagId:this.tagTarget,
+                    removeOrigin:this.tagRemoveOrigin
+                };
+                console.log(params);
+                this.httpRequest("/admin/articleMarkTag",params).then(  (result)=>{
+                    this.tagVisible=false;
+                    this.$message.info("标签标记成功")
+                    this.loadList();
+                    this.updateCount();
+                });
             },
-            updateCount(rows){
-                // var catalogSet=new Set(),tagSet=new Set();
-                // rows.forEach((item)=>{
-                //     catalogSet.add(item.catalogId);
-                // })
+            updateCount(){
+                debugger;
+                var catalogSet=new Set(),tagSet=new Set();
+                var rows=this.selectedList;
+                rows.forEach((item)=>{
+                    if(item.catalogId){
+                        catalogSet.add(item.catalogId);
+                    }
+                    if(item.tagList){
+                        let arr=item.tagList.split(",");
+                        arr.forEach((tagId)=>{
+                            tagSet.add(Number(tagId));
+                        })
+                        
+                    }
+                })
 
 
-                // if(catalogId){
-                //     var params={catalog:[catalogId]};
-                //     this.$parent.$emit("articleCountChange",params);
-                // }
+                var params={catalog:Array.from(catalogSet),tag:Array.from(tagSet)};
+                this.$parent.$emit("articleCountChange",params);
+                
             }
 
         }

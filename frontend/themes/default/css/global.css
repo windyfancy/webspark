@@ -60,6 +60,10 @@ width:100%;
     display: inline-block;
     vertical-align:top;
 }
+.main .list_item{
+    padding:5px;
+    border-bottom: 1px solid #e4edf7;
+}
 .card{
     overflow: hidden;
     padding: 10px;
@@ -70,10 +74,22 @@ width:100%;
     box-shadow: 0 0 0.25rem rgba(0,0,0,.08), 0 0.5rem 0.75rem rgba(0,0,0,.14);
     
 }
+.card .title{
+    font-weight:800;
+    line-height: 30px;
+    padding:3px;
+    margin:3px;
+    border-bottom: 1px solid whitesmoke;
+}
+.card li{
+    line-height: 30px;
+    padding:0px 5px;
+}
 .tagItem{
     background: #42c02e;
-    padding:2px 7px;
-    border-radius: 20px;
+    padding:1px 15px 3px;
+    border-radius: 15px;
+    line-height:40px;
     color:white;
     font-size:12px;
 }

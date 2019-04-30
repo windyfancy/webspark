@@ -1,37 +1,33 @@
 module.exports= {  
-    onRequest() {  
+    async onRequest() {  
         var data=this.request.data;
 
         if(data.catalog && data.catalog.length>0){
-            data.catalog.forEach(async (catalogId)=>{
-                if(catalogId!=null){
-                    var sql="update wb_catalog set count=(select count(*) from wb_article where catalogId=?) where id=? "
-                    await this.database.query(sql,[catalogId,catalogId])
+  
+                var catalogIdList=catalog.join(",")
+                var sql=`update wb_catalog t join 
+                (SELECT  catalogId,count(a.id) as count FROM wb_article a  where catalogId in(${catalogIdList}) group by a.catalogId) as c
+                on (t.id=c.catalogId) set t.count=c.count  where catalogId in (${catalogIdList})`
+                await this.database.query(sql,[catalogId,catalogId])
 
-                    if(data.tag){
-                        var arr=[]
-                        data.tag.forEach(function (item){
-                            arr.push(item.key)
-                        })
-                        var tagIdList=arr.join(",")
+                if(data.tag){
+                    var arr=[]
+                    data.tag.forEach(function (item){
+                        arr.push(item.key)
+                    })
+                    var tagIdList=arr.join(",")
 
-                        var sql=`update wb_tag t join 
-                        (SELECT a.tagId,b.title,count(a.id) as count FROM todo_db.wb_article_tag a inner join wb_article b  on (a.articleId=b.id) where tagId in (${tagIdList}) group by a.tagId) as c
-                        on (t.id=c.tagId) set t.count=c.count`;
+                    var sql=`update wb_tag t join 
+                    (SELECT a.tagId,b.title,count(a.id) as count FROM wb_article_tag a inner join wb_article b  on (a.articleId=b.id) where tagId in (${tagIdList}) group by a.tagId) as c
+                    on (t.id=c.tagId) set t.count=c.count where tagId in (${tagIdList})`;
 
-                        await this.database.query(sql,[]);
-                    }
-
-                    
-                    this.render(JSON.stringify({code:"OK"}));
-                    
-
-                     
-                     
-                }else{
-                    this.response.body="{msg:'catalogId is null'}"
+                    await this.database.query(sql,[]);
                 }
-            })
+    
+                this.render(JSON.stringify({code:"OK"}));
+                    
+ 
+            
         }
         
     }

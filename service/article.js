@@ -9,8 +9,8 @@ module.exports= {
             let article=renderObj.articleList[0];
 
             const renderer = new marked.Renderer();
- 
-            article.content=marked(article.content,{
+            let content=article.content?article.content:"";
+            article.content=marked(content,{
               breaks: true,
               headerIds: false,
               renderer: renderer

@@ -70,6 +70,13 @@ width:100%;
     box-shadow: 0 0 0.25rem rgba(0,0,0,.08), 0 0.5rem 0.75rem rgba(0,0,0,.14);
     
 }
+.tagItem{
+    background: #42c02e;
+    padding:2px 7px;
+    border-radius: 20px;
+    color:white;
+    font-size:12px;
+}
 .page a{
     color:black;
 }

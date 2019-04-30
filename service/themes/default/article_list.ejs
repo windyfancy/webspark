@@ -3,6 +3,20 @@ for(var i=0;i<rows.length;i++){%>
     <div articleId="<%=rows[i].id%>">
         <h2><a href="<%= '/article?id='+rows[i].id%>"><%=rows[i].title%></a></h2>
         <div><%=rows[i].summary%></div>
+        <div>
+            <% 
+            if(rows[i].tagList){
+            var tagArr=rows[i].tagList.split(",")
+            tagArr.forEach(function (tagId){%>
+
+                <span class="tagItem"><%=tagMap[tagId]%></span>
+
+            <%})
+            }
+            %>
+            
+        
+        </div>
     </div>
 <%}%>
 

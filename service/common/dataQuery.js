@@ -12,23 +12,26 @@ module.exports= {
             if(options.catalogId){ //查询栏目
                 params.catalogId=options.catalogId;
             }
-            if(options.articleId){ //查询单篇文章
-                params.id=options.articleId;
-                columns=["*"];
-            }
+
 
             let pageIndex=1;
             if(ctx.request.query["page"]){
                 pageIndex=ctx.request.query["page"];
             }
 
-            var sql=`SELECT a.id,title,summary,(select group_concat(tagId) from wb_article_tag c where c.articleId=a.id) as tagList 
-            FROM wb_article a inner join wb_article_tag b 
-            on (a.id=b.articleId)`
+            var sql=`select a.id,title,summary,$content (select group_concat(tagId) from wb_article_tag b where b.articleId=a.id) as tagList 
+            FROM wb_article a`
+
+            if(options.articleId){ //查询单篇文章
+                params.id=options.articleId;
+                sql=sql.replace("$content","content,")
+            }else{
+                sql=sql.replace("$content","") //列表模式，不需要content字段
+            }
 
             if(options.tagId){
-                params["b.tagId"]=options.tagId;
-                
+                params["c.tagId"]=options.tagId;
+                sql+=" inner join wb_article_tag c on (a.id=c.articleId)"
             } 
 
             var p4=ctx.database.select(sql,params,{
@@ -48,6 +51,14 @@ module.exports= {
                     articleCount:results[3].totalCount
                 }
         
+                var tagMap={};
+                renderObj.tagList.forEach((item)=>{
+                    tagMap[item.id]=item.title;
+                })
+                renderObj.tagMap=tagMap;
+               
+
+                //deal with link
                 var links={
                     home:[],
                     sidebar:[],

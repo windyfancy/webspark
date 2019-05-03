@@ -1,5 +1,5 @@
 var WebContext=require("webcontext");
-new WebContext().listen();
+new WebContext();
 
 /*
 CREATE TABLE `todo_db`.`todo_list` (

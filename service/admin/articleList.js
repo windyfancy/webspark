@@ -1,5 +1,5 @@
 module.exports= {  
-    onRequest() {  
+    onLoad() {  
         var data=this.request.data;
         var params={};
         var sql=`select a.id,title,catalogId,summary,$content (select group_concat(tagId) from wb_article_tag b where b.articleId=a.id) as tagList 

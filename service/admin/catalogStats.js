@@ -1,5 +1,5 @@
 module.exports= {  
-    async onRequest() {  
+    async onLoad() {  
         var data=this.request.data;
 
         if(data.catalog && data.catalog.length>0){

@@ -1,7 +1,7 @@
 var crypto = require('crypto');
  
 module.exports= {  
-    async onRequest() {  
+    async onLoad() {  
         let session=await this.session.load();
 
         if(!session["userName"]){

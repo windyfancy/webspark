@@ -1,7 +1,7 @@
 var crypto = require('crypto');
  
 module.exports= {  
-    onRequest() {  
+    onLoad() {  
         var data=this.request.data;
         if(data){
             var password=crypto.createHash('md5').update(data.password).digest("hex");

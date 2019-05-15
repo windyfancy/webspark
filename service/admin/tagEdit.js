@@ -1,5 +1,5 @@
 module.exports= {  
-    onRequest() {  
+    onLoad() {  
         var data=this.request.data;
         if(data.tagList){
             var promiseList=[];

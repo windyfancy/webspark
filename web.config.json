@@ -4,7 +4,7 @@
     "sessionKey": "my_session_id",
     "uploadDir": "upload",
     "serviceDir": "service",
-    "clientDir": "frontend",
+    "clientDir": "client",
     "database":{ 
         "host":"127.0.0.1",
         "port":"3306",

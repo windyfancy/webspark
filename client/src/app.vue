@@ -129,17 +129,17 @@ ul,li{list-style: none;}
                 this.$router.replace({path:"/articleList",query:{id:key[0]}})
             },
             loadCatalog(){
-                this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+                this.httpRequest("/admin/catalog.list",{}).then(  (result)=>{
                     this.catalogList=result;
                     this.buildTree(result)
                 });
 
-                this.httpRequest("/admin/tagList",{}).then(  (result)=>{
+                this.httpRequest("/admin/tag.list",{}).then(  (result)=>{
                     this.tagList=result;
                 });
             },
             updateCount(obj){
-               this.httpRequest("/admin/catalogStats",obj).then(  (result)=>{
+               this.httpRequest("/admin/catalog.stats",obj).then(  (result)=>{
                      
                 });
             },

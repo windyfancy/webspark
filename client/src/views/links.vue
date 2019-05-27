@@ -88,10 +88,10 @@
         },
         created:function (){
             var self=this;
-            this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+            this.httpRequest("/admin/catalog.list",{}).then(  (result)=>{
                 this.catalogList=result;
             });
-            this.httpRequest("/admin/tagList",{}).then(  (result)=>{
+            this.httpRequest("/admin/tag.list",{}).then(  (result)=>{
                 this.tagList=result;
             });
             this.loadList();
@@ -117,7 +117,7 @@
             },
             loadList(){
                 let params={type:this.type};
-                this.httpRequest("/admin/linkList",params).then(  (result)=>{
+                this.httpRequest("/admin/link.list",params).then(  (result)=>{
                     this.linkList=result;
                 });
             },
@@ -135,7 +135,7 @@
             },
             handleDelete(row, index){
                 this.$confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
-                     this.httpRequest("/admin/linkDelete",{id:row.id}).then(  (e)=>{
+                     this.httpRequest("/admin/link.delete",{id:row.id}).then(  (e)=>{
  
                         this.$message.info("删除成功")
                         this.loadList();
@@ -151,7 +151,7 @@
                     delete params.id;
                 }
                 
-                this.httpRequest("/admin/linkEdit",params).then(  (e)=>{
+                this.httpRequest("/admin/link.edit",params).then(  (e)=>{
 
                     if(e.affectedRows>0){
                         this.$message.info("编辑成功")

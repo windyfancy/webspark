@@ -76,17 +76,17 @@ import MarkEditor from '../components/mark.editor.vue';
 
         },  
         mounted:function (){
-             this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+             this.httpRequest("/admin/catalog.list",{}).then(  (result)=>{
                 this.catalogList=result;
                 this.loadContent();
             });
 
-            this.httpRequest("/admin/tagList",{}).then(  (result)=>{
+            this.httpRequest("/admin/tag.list",{}).then(  (result)=>{
                 this.tagList=result.map(function (item){
                     return {label:item.title,key:item.id.toString()}
                 });
                     
-                this.httpRequest("/admin/articleTagList",{articleId:this.articleId}).then(  (e)=>{
+                this.httpRequest("/admin/articleTag.list",{articleId:this.articleId}).then(  (e)=>{
                     var arr=[];
                     e.forEach((item)=>{
                          arr.push({label:item.title,key:item.tagId.toString()})
@@ -105,7 +105,7 @@ import MarkEditor from '../components/mark.editor.vue';
             },
             loadContent(){
                 if(this.articleId){
-                    this.httpRequest("/admin/articleList",{id:this.articleId}).then(  (rows)=>{
+                    this.httpRequest("/admin/article.list",{id:this.articleId}).then(  (rows)=>{
                         if(rows.length>0){
                             let row=rows[0];
                             this.title=row.title;
@@ -140,7 +140,7 @@ import MarkEditor from '../components/mark.editor.vue';
                     }
 
                     if(tagNew.length>0){
-                         this.httpRequest("/admin/tagEdit",{tagList:tagNew}).then(  (e)=>{
+                         this.httpRequest("/admin/tag.edit",{tagList:tagNew}).then(  (e)=>{
                              tagNew.forEach( (labelName,idx)=>{
                                  this.tagSelected.push({key:e.list[idx].toString(),label:labelName})
                              })
@@ -170,7 +170,7 @@ import MarkEditor from '../components/mark.editor.vue';
                     params.createTime=new Date();
                 }
                 
-                this.httpRequest("/admin/articleEdit",params).then( async (e)=>{
+                this.httpRequest("/admin/article.edit",params).then( async (e)=>{
  
                     if(!this.articleId){
                         this.articleId=e.insertId;
@@ -212,7 +212,7 @@ import MarkEditor from '../components/mark.editor.vue';
                         articleId:articleId,
                         tagList: arr
                     }
-                    this.httpRequest("/admin/articleTagEdit",params).then(  (e)=>{
+                    this.httpRequest("/admin/articleTag.edit",params).then(  (e)=>{
                         resolve();
                     });
 

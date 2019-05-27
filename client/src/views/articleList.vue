@@ -114,7 +114,7 @@
                     
                      params["catalogId"]=this.catalogId;
                  }
-                this.httpRequest("/admin/articleList",params).then(  (result)=>{
+                this.httpRequest("/admin/article.list",params).then(  (result)=>{
           
                      this.listData=result.rows;
                      this.totalCount=result.totalCount;
@@ -144,7 +144,7 @@
                     debugger;
                     var params={id:rows};
         
-                    this.httpRequest("/admin/articleDelete",params).then(  (e)=>{
+                    this.httpRequest("/admin/article.delete",params).then(  (e)=>{
                         this.$message.info("删除成功")
                         this.loadList();
                         this.updateCount();
@@ -153,7 +153,7 @@
                 }})
             },
             showMove(){
-                 this.httpRequest("/admin/catalogList",{}).then(  (result)=>{
+                 this.httpRequest("/admin/catalog.list",{}).then(  (result)=>{
                     this.catalogList=result;
                     this.moveVisible=true;
                 });
@@ -163,7 +163,7 @@
                 var params={articleList:this.selectedIds,catalogId:this.moveTarget};
                 console.log(params);
 
-                this.httpRequest("/admin/articleMove",params).then(  (result)=>{
+                this.httpRequest("/admin/article.move",params).then(  (result)=>{
                     this.moveVisible=false;
                     this.$message.info("移动成功")
                     this.loadList();
@@ -171,7 +171,7 @@
                 });
             },
             showTag(){
-                this.httpRequest("/admin/tagList",{}).then(  (result)=>{
+                this.httpRequest("/admin/tag.list",{}).then(  (result)=>{
                    this.tagList=result;
                    this.tagVisible=true;
                 });
@@ -184,7 +184,7 @@
                     removeOrigin:this.tagRemoveOrigin
                 };
                 console.log(params);
-                this.httpRequest("/admin/articleMarkTag",params).then(  (result)=>{
+                this.httpRequest("/admin/articleTag.mark",params).then(  (result)=>{
                     this.tagVisible=false;
                     this.$message.info("标签标记成功")
                     this.loadList();

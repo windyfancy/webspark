@@ -11,5 +11,28 @@
         "user":"root",
         "password":"windyfancy123",
         "database":"todo_db"
+    },
+    "theme":"purple",
+    "themesList":{
+        "default":{
+            "layout":"default",
+            "style":"default"
+        },
+        "blue":{
+            "layout":"default",
+            "style":"blue"
+        },
+        "green":{
+            "layout":"default",
+            "style":"green"
+        },
+        "sunset":{
+            "layout":"default",
+            "style":"sunset"
+        },
+        "purple":{
+            "layout":"default",
+            "style":"purple"
+        }
     }
 }

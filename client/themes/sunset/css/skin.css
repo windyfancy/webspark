@@ -1,0 +1,38 @@
+a{
+    color: #2d8cf0;
+    text-decoration: none;
+}
+body{
+    background-image: url(../images/bg.jpg);
+}
+.container {
+    background-color:#ffffffe5;
+}
+.header {
+    color:white;
+    height:80px;
+    line-height:80px;
+
+}
+.header a{
+    color:white;
+}
+
+.tagItem{
+    background: #42c02e;
+    padding:1px 15px 3px;
+    border-radius: 15px;
+    line-height:40px;
+    color:white;
+    font-size:12px;
+}
+
+.page a{
+    color:black;
+}
+.page a:hover{
+    color:orangered;
+}
+.page .current{
+    color:rgb(0, 162, 255);
+}

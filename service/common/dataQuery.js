@@ -39,12 +39,14 @@ module.exports= {
                 pageIndex:pageIndex,
                 pageSize:20
             })
-        
+            var theme=ctx.config["theme"];
+            var item=ctx.config["themesList"][theme];
+
             Promise.all([p1,p2,p3,p4]).then( (results)=>{
                 var renderObj={
                     context:ctx,
-                    themeName:"default",
-                    themeDir:"themes/default",
+                    layoutDir:"themes/"+item.layout,
+                    themeDir:"themes/"+item.style,
                     catalogList:results[0],
                     tagList:results[1],
                     articleList:results[3].rows,

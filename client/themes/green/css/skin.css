@@ -1,0 +1,36 @@
+a{
+    color: #2d8cf0;
+    text-decoration: none;
+}
+
+.header {
+    color:white;
+    height:80px;
+    line-height:80px;
+    /*background-color:#24292e;*/
+    /* background: linear-gradient(to right,#01aab4,#007cdb);*/
+    background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+    /*background-image: linear-gradient(to right,#1278f6,#00b4aa);*/
+}
+.header a{
+    color:white;
+}
+
+.tagItem{
+    background: #42c02e;
+    padding:1px 15px 3px;
+    border-radius: 15px;
+    line-height:40px;
+    color:white;
+    font-size:12px;
+}
+
+.page a{
+    color:black;
+}
+.page a:hover{
+    color:orangered;
+}
+.page .current{
+    color:rgb(0, 162, 255);
+}

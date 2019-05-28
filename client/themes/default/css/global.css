@@ -47,7 +47,7 @@ width:100%;
 
 .main{
     text-align:left;
-    width: 72%;
+    width:calc(90% - 240px);
     display: inline-block;
     vertical-align:top;
 }

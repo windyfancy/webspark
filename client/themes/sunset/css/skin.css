@@ -17,7 +17,11 @@ body{
 .header a{
     color:white;
 }
-
+.nav{
+    width: 90%;
+    margin: auto;
+    position: relative;
+}
 .tagItem{
     background: #42c02e;
     padding:1px 15px 3px;
@@ -27,12 +31,22 @@ body{
     font-size:12px;
 }
 
+.page{margin:10px 5px;}
 .page a{
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 2px;
     color:black;
+    background: #f7f3e4f0;
 }
 .page a:hover{
     color:orangered;
 }
 .page .current{
-    color:rgb(0, 162, 255);
+    background:#e58a51;
+    color:white;
+}
+.footer{
+    border-width:0px !important;
+    color:white;
 }

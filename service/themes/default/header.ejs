@@ -1,6 +1,6 @@
 <div class="header">
         
-    <div>
+    <div class="nav">
         <img class="logo" src="<%= '/'+themeDir+'/images/logo.svg'%>">
         <span class="navigate">
         <a href="/">首页</a>
@@ -9,9 +9,9 @@
             <a href="<%=rows[i].linkUrl%>"><%=rows[i].title%></a>
         <%}%>
         </span>
+        <div class="login">
+            <a href="/admin/index.html">登录</a>
+        </div>
+    </div>
 
-    </div>
-    <div class="login">
-        <a href="/admin/index.html">登录</a>
-    </div>
 </div>

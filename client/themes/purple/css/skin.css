@@ -1,5 +1,5 @@
 a{
-    color: #2d8cf0;
+    color: #9d3f9f;
     text-decoration: none;
 }
 
@@ -14,22 +14,32 @@ a{
 .header a{
     color:white;
 }
+.nav{
+    width: 90%;
+    margin: auto;
+    position: relative;
+}
 
 .tagItem{
-    background: #42c02e;
+    background: #d3298a;
     padding:1px 15px 3px;
     border-radius: 15px;
     line-height:40px;
     color:white;
     font-size:12px;
 }
-
+.page{margin:10px 5px;}
 .page a{
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 2px;
     color:black;
+    background: #DDE3E7;
 }
 .page a:hover{
     color:orangered;
 }
 .page .current{
-    color:rgb(0, 162, 255);
+    background:#209fd6;
+    color:white;
 }

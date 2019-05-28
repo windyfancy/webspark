@@ -7,6 +7,7 @@ a{
     color:black;
     height:80px;
     line-height:80px;
+ 
     /*background-color:#24292e;*/
     /* background: linear-gradient(to right,#01aab4,#007cdb);*/
     background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 60%,#fff),linear-gradient(70deg,#dbedff 32%,#ebfff0);
@@ -15,7 +16,11 @@ a{
 .header a{
     color:black;
 }
-
+.nav{
+    width: 90%;
+    margin: auto;
+    position: relative;
+}
 .tagItem{
     background: #42c02e;
     padding:1px 15px 3px;
@@ -25,12 +30,18 @@ a{
     font-size:12px;
 }
 
+.page{margin:10px 5px;}
 .page a{
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 2px;
     color:black;
+    background: #DDE3E7;
 }
 .page a:hover{
     color:orangered;
 }
 .page .current{
-    color:rgb(0, 162, 255);
+    background:#209fd6;
+    color:white;
 }

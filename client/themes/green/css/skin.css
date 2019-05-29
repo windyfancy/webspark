@@ -1,5 +1,5 @@
 a{
-    color: #2d8cf0;
+    color: #555;
     text-decoration: none;
 }
 
@@ -29,6 +29,9 @@ a{
     color:white;
     font-size:12px;
 }
+.card .title{
+    border-bottom: 2px solid #72c02c;
+}
 
 .page{margin:10px 5px;}
 .page a{
@@ -44,4 +47,8 @@ a{
 .page .current{
     background:#37BF91;
     color:white;
+}
+.footer{
+    border-top:1px solid rgb(217, 236, 201) !important;
+ 
 }

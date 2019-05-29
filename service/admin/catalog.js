@@ -3,7 +3,9 @@ module.exports= {
     },
     list(){
         var data=this.request.data;
-        this.database.select("wb_catalog").then((result)=>{
+        var params={};
+      
+        this.database.select("wb_catalog",params).then((result)=>{
             this.render(JSON.stringify(result));
         })
     },

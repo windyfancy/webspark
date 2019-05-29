@@ -9,8 +9,8 @@
     <p style="line-height:50px;"><a-button type="primary" icon="ios-add" @click="linkEdit={};editVisible=true">添加链接</a-button></p>
     <a-modal title="链接" v-model="editVisible" @ok="doSave">
         <a-form :label-width="80">
-         <a-form-item label="标题"> <a-input v-model="linkEdit.title"/></a-form-item>
-         <a-form-item label="地址：">   
+         <a-form-item label="标题" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"> <a-input v-model="linkEdit.title"/></a-form-item>
+         <a-form-item label="地址：" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">   
 
     <a-select v-model="linkEdit.linkUrl" v-if="!inputable"   style="width:200px"  @on-query-change="queryChange" @on-open-change="openChange">
         <a-select-opt-group label="选择栏目">

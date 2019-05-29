@@ -4,18 +4,18 @@
         <a-button type="primary" icon="ios-add" @click="catalogEdit={};editVisible=true">添加栏目</a-button></p>
     <a-modal title="栏目编辑" v-model="editVisible" @ok="doSave">
         <a-form :label-width="80">
-         <a-form-item label="栏目名称："> <a-input v-model="catalogEdit.title"/></a-form-item>
-         <a-form-item label="上级栏目 ：">  
+         <a-form-item label="栏目名称：" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"> <a-input v-model="catalogEdit.title"/></a-form-item>
+         <a-form-item label="上级栏目 ：" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">  
      <a-select v-model="catalogEdit.parentId" style="width:200px" :clearable="true">
         <a-select-option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</a-select-option>
     </a-select>
     </a-form-item>
    
-        <a-form-item label="栏目编号：">   <a-input v-model="catalogEdit.code"/> </a-form-item>
+        <a-form-item label="栏目编号：" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">   <a-input v-model="catalogEdit.code"/> </a-form-item>
            </a-form>
     </a-modal>
     <p>
-     <a-table :columns="columns1" :dataSource="catalogList" pagination="false">
+     <a-table :columns="columns1" :dataSource="catalogList" :pagination="false">
         <template slot-scope="text, row, index" slot="action">
              <a-button @click="handleEdit(row, index)">编辑</a-button>
              <a-button @click="handleDelete(row, index)">删除</a-button>
@@ -79,7 +79,7 @@
                 let params={};
                 this.httpRequest("/admin/catalog.list",params).then(  (result)=>{
                     this.catalogList=result;
-                  });
+                });
             },
             handleEdit(row, index){
                 this.catalogEdit={

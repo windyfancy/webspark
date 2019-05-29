@@ -3,9 +3,9 @@
     <p style="line-height:50px;"><a-button type="primary" icon="ios-add" @click="tagEdit={};editVisible=true">添加标签</a-button></p>
     <a-modal title="栏目编辑" v-model="editVisible" @ok="doSave">
         <a-form :label-width="80">
-         <a-form-item label="标签名称："> <a-input v-model="tagEdit.title"/></a-form-item>
+         <a-form-item label="标签名称：" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"> <a-input v-model="tagEdit.title"/></a-form-item>
 
-        <a-form-item label="标签编号：">   <a-input v-model="tagEdit.code"/> </a-form-item>
+        <a-form-item label="标签编号：" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">   <a-input v-model="tagEdit.code"/> </a-form-item>
            </a-form>
     </a-modal>
     <p>
@@ -16,7 +16,9 @@
         </template>
      </a-table>
     </p>
-
+<p>
+      <a-pagination :hideOnSinglePage=true  v-model="pageIndex" :pageSize="pageSize" :total="totalCount"  @change="pageChange"/>
+</p>
 </div>
 
 </template>
@@ -61,7 +63,10 @@
                     title:"",
                     parentId:null,
                     code:""
-                }
+                },
+                pageIndex:1,
+                pageSize:20,
+                totalCount:0
             } 
  
         },
@@ -75,9 +80,14 @@
         },
         methods:{
             loadList(){
-                let params={};
+                let params={
+                    pageIndex:this.pageIndex,
+                    pageSize:this.pageSize
+                };
                 this.httpRequest("/admin/tag.list",params).then(  (result)=>{
-                    this.tagList=result;
+
+                    this.totalCount=result.totalCount;
+                    this.tagList=result.rows;
                   });
             },
             handleEdit(row, index){
@@ -100,6 +110,10 @@
                 }})
                 
 
+            },
+            pageChange(idx){
+                this.pageIndex=idx;
+                this.loadList();
             },
             doSave(resolve){
                  let params=this.tagEdit;

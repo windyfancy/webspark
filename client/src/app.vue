@@ -27,7 +27,8 @@ ul,li{list-style: none;}
     line-height: 50px;
     height:50px;
     font-size: 24px;
-    color:white;
+    color:black;
+    background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 60%,#fff),linear-gradient(70deg,#dbedff 32%,#ebfff0);
     /*background: linear-gradient(to right,#01aab4,#007cdb);*/
 
     /*background-image: linear-gradient(to right,#1278f6,#00b4aa);*/
@@ -54,7 +55,7 @@ ul,li{list-style: none;}
 </style>
 <template>
 <div class="wrap">
-<div class="header">WebSpark<span> webcontext,the most simplest node.js web framework</span></div>
+<div class="header">后台管理<span> webcontext,the most simplest node.js web framework</span></div>
 <ul class="leftMenu" v-if="showNav">
 <li><a-icon type="edit" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
 <div style="padding-left:12px;">

@@ -39,19 +39,31 @@ module.exports= {
                 pageIndex:pageIndex,
                 pageSize:20
             })
-            var theme=ctx.config["theme"];
-            var item=ctx.config["themesList"][theme];
 
-            Promise.all([p1,p2,p3,p4]).then( (results)=>{
+            var p5=ctx.database.select("wb_config");
+
+            Promise.all([p1,p2,p3,p4,p5]).then( (results)=>{
+                var arr=results[4].filter(function (item){
+                    return item.configKey=="theme"
+                });
+                var theme="default";
+                if(arr.length>0){
+                    theme=arr[0]["configValue"];
+                }
+                var themeItem=ctx.config["themesList"][theme];
+
                 var renderObj={
                     context:ctx,
-                    layoutDir:"themes/"+item.layout,
-                    themeDir:"themes/"+item.style,
+                    layoutDir:"themes/"+themeItem.layout,
+                    themeDir:"themes/"+themeItem.style,
                     catalogList:results[0],
                     tagList:results[1],
                     articleList:results[3].rows,
                     articleCount:results[3].totalCount
                 }
+
+                
+
         
                 var tagMap={};
                 renderObj.tagList.forEach((item)=>{

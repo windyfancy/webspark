@@ -3,7 +3,12 @@ module.exports= {
     },
     list() {  
         var data=this.request.data;
-        this.database.select("wb_tag",{}).then(  (result)=>{
+        var options={};
+        if(data.pageIndex){
+            options.pageIndex=data.pageIndex,
+            options.pageSize=data.pageSize
+        }
+        this.database.select("wb_tag",{},options).then(  (result)=>{
             this.render(JSON.stringify(result));
         })
     },

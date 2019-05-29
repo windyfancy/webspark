@@ -12,25 +12,29 @@
         "password":"windyfancy123",
         "database":"todo_db"
     },
-    "theme":"sunset",
     "themesList":{
         "default":{
+            "name":"云淡风清(默认)",
             "layout":"default",
             "style":"default"
         },
         "blue":{
+            "name":"青出于蓝",
             "layout":"default",
             "style":"blue"
         },
         "green":{
+            "name":"深绿",
             "layout":"default",
             "style":"green"
         },
         "sunset":{
+            "name":"落日余晖",
             "layout":"default",
             "style":"sunset"
         },
         "purple":{
+            "name":"姹紫嫣红",
             "layout":"default",
             "style":"purple"
         }

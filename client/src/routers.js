@@ -14,7 +14,6 @@ import tags from './views/tags.vue'
 import siteConfig from './views/siteConfig.vue'
 import users from './views/users.vue'
 
-import test from './views/test.vue'
 
 
 
@@ -33,10 +32,7 @@ const routes = [
 
     { name:"tags",path: '/tags', component: tags },
     { name:"siteConfig",path: '/siteConfig', component: siteConfig },
-    { name:"users",path: '/users', component: users },
-
-
-    { name:"test",path: '/test', component: test  }
+    { name:"users",path: '/users', component: users }
 
 
 

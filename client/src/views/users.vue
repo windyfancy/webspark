@@ -91,7 +91,7 @@
                     type:null
                 },
                 pageIndex:1,
-                pageSize:2,
+                pageSize:20,
                 totalCount:0
             } 
  
@@ -106,13 +106,11 @@
         },
         methods:{
             loadList(){
-                debugger;
                 let params={
                     pageIndex:this.pageIndex,
                     pageSize:this.pageSize
                 };
                 this.httpRequest("/admin/user.list",params).then(  (result)=>{
-                    debugger;
                     this.totalCount=result.totalCount;
                     this.userList=result.rows;
                   });

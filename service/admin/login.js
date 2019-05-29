@@ -13,7 +13,8 @@ module.exports= {
             }).then((result)=>{
                if(result.length>0){
                    var userName=result[0].userName;
-                   this.session.set({"userName":userName}).then(()=>{
+                   var type=result[0].type;
+                   this.session.set({"userName":userName,"userType":type}).then(()=>{
                         this.render(JSON.stringify({
                             code:"OK",
                             userName:userName

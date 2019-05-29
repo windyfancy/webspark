@@ -1,12 +1,19 @@
 var WebContext=require("webcontext");
-new WebContext();
+var app=new WebContext();
 
-/*
-CREATE TABLE `todo_db`.`todo_list` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(45) NULL,
-  `status` INT NULL,
-  `createTime` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`));
-
-*/
+app.mixin({
+  checkPermission(userType){
+    return new Promise((resolve)=>{
+      this.session.load().then((session)=>{
+        if(session["userName"] && session["userType"]<=userType){
+            resolve(true);
+            return ;
+        }else{
+            this.response.end('{"code":"Permission_Deny"}');
+            resolve(false);
+        }
+      })
+    });
+  }
+})
+ 

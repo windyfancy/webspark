@@ -1,5 +1,8 @@
 module.exports= {  
-
+    async onLoad() { 
+        var allow=await this.checkPermission(1);
+        return allow;
+    },
     list() {  
         var data=this.request.data;
         var options={orderBy:"createTime desc"};
@@ -48,7 +51,6 @@ module.exports= {
 
     },
     disable(){
-        debugger;
         var data=this.request.data;
         var params={
             id:data.id,

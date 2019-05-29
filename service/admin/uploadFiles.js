@@ -1,9 +1,12 @@
 var path=require("path")
 module.exports= {  
-    onLoad() {  
+    async onLoad() {  
         //var fileName=path.basename(this.request.files.file.path);
-        var root=path.resolve(this.config.uploadDir);
-        var fileName=path.relative(root,this.request.files.file.path).replace("\\","/");
-        this.render({fileName:fileName});
+        var allow=await this.checkPermission(1);
+        if(allow){
+            var root=path.resolve(this.config.uploadDir);
+            var fileName=path.relative(root,this.request.files.file.path).replace("\\","/");
+            this.render({fileName:fileName});
+        }
     }
   }

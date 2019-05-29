@@ -1,5 +1,7 @@
 module.exports= {  
-    onLoad() {  
+    async onLoad() { 
+        var allow=await this.checkPermission(1);
+        return allow;
     },
     list() {  
         var data=this.request.data;

@@ -1,6 +1,8 @@
 
 module.exports= {  
-    onLoad() {  
+    async onLoad() { 
+        var allow=await this.checkPermission(1);
+        return allow;
     },
     getThemes() {  
         this.database.select("wb_config",{configKey:"theme"}).then((res)=>{

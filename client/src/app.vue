@@ -84,13 +84,14 @@ ul,li{list-style: none;}
        
         data () {
             return {
+                isLogined:false,
                 catalogTree:[]
             }
             
         },
         created:function (){
-             
-            this.loadCatalog();
+             this.loadCatalog();
+            
             //栏目修改
             this.$on("catalogChange",()=>{
                 this.loadCatalog();
@@ -111,6 +112,9 @@ ul,li{list-style: none;}
             
         },
         watch:{
+            isLogined:function (){
+                this.loadCatalog();
+            }
         },
         methods:{
             navigate:function (name){

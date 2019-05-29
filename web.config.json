@@ -24,7 +24,7 @@
             "style":"blue"
         },
         "green":{
-            "name":"深绿",
+            "name":"宁静绿",
             "layout":"default",
             "style":"green"
         },
@@ -37,6 +37,16 @@
             "name":"姹紫嫣红",
             "layout":"default",
             "style":"purple"
+        },
+        "summersky":{
+            "name":"夏日晴空",
+            "layout":"default",
+            "style":"summersky"
+        },
+        "yellow":{
+            "name":"all yellow",
+            "layout":"default",
+            "style":"yellow"
         }
     }
 }

@@ -1,20 +1,23 @@
 a{
-    color: #555;
+    color: #2d8cf0;
     text-decoration: none;
 }
-
+body{
+    background-image: url(../images/bg.jpg);
+    background-attachment:fixed;
+    background-size: contain;
+}
+.container {
+    background-color:#ffffffe5;
+}
 .header {
     color:white;
     height:80px;
     line-height:80px;
- 
-    /*background-color:#24292e;*/
-    /* background: linear-gradient(to right,#01aab4,#007cdb);*/
-    background-image: linear-gradient(to right, #00cdac 0%, #8ddad5 100%);
-    /*background-image: linear-gradient(to right,#1278f6,#00b4aa);*/
+
 }
 .header a{
-    color:white;
+    color:#616776;
 }
 .nav{
     width: 90%;
@@ -29,9 +32,6 @@ a{
     color:white;
     font-size:12px;
 }
-.card .title{
-    border-bottom: 2px solid #72c02c;
-}
 
 .page{margin:10px 5px;}
 .page a{
@@ -39,16 +39,16 @@ a{
     display: inline-block;
     border-radius: 2px;
     color:black;
-    background: #DDE3E7;
+    background: #f7f3e4f0;
 }
 .page a:hover{
     color:orangered;
 }
 .page .current{
-    background:#37BF91;
+    background:#209fd6;
     color:white;
 }
 .footer{
-    border-top:1px solid rgb(217, 236, 201) !important;
- 
+    border-width:0px !important;
+    color:white;
 }

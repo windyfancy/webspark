@@ -61,7 +61,7 @@
                 sessionStorage["userType"]=e.userType;
                 sessionStorage["theme"]=e.theme;
                 this.$parent.theme==e.theme;
-                debugger;
+                
                 this.$parent.userType=e.userType;
                 this.$parent.isLogined=true;
                 setTimeout(() => {

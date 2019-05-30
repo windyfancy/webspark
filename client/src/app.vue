@@ -55,6 +55,10 @@ ul,li{list-style: none;}
     color:gray;
     font-size:18px;
 }
+.logout{
+    position:absolute;right:30px;
+    font-size: 12px;
+}
 </style>
 <template>
 
@@ -64,18 +68,19 @@ ul,li{list-style: none;}
     <a-icon type="github" />
     <a href="https://github.com/windyfancy/webcontext" target="_blank">webcontext</a>
     </span>
-    </div>
+<a href="javascript:" @click="logout" class="logout">退出</a>
+</div>
 <ul class="leftMenu" v-if="showNav">
 <li><a-icon type="edit" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
 <div style="padding-left:12px;">
- <a-directory-tree :treeData="catalogTree" @select="catalogSelect"></a-directory-tree>
+ <a-directory-tree :treeData="catalogTree" :selectedKeys.sync="selectedIds" @select="catalogSelect"></a-directory-tree>
 </div>
 </li>
-<li><a-icon type="setting" /><a href="javascript:" @click="navigate('siteConfig')">站点配置</a></li>
+<li v-if="userType<=1"><a-icon type="setting" /><a href="javascript:" @click="navigate('siteConfig')">站点配置</a></li>
 <li><a-icon type="folder" /><a href="javascript:" @click="navigate('catalog')">栏目管理</a></li>
 <li><a-icon type="tag" /><a href="javascript:" @click="navigate('tags')">标签管理</a></li>
-<li><a-icon type="share-alt" /><a href="javascript:" @click="navigate('links')">链接管理</a></li>
-<li><a-icon type="user" /><a href="javascript:" @click="navigate('users')">用户管理</a></li>
+<li v-if="userType<=1"><a-icon type="share-alt" /><a href="javascript:" @click="navigate('links')">链接管理</a></li>
+<li v-if="userType<=1"><a-icon type="user" /><a href="javascript:" @click="navigate('users')">用户管理</a></li>
 <li><a-icon type="lock" /><a href="javascript:" @click="navigate('password')">修改密码</a></li>
 </ul>
 <div class="main">
@@ -95,7 +100,9 @@ ul,li{list-style: none;}
             return {
                 theme:"default",
                 isLogined:false,
-                catalogTree:[]
+                userType:2,
+                catalogTree:[],
+                selectedIds:[]
             }
             
         },
@@ -103,6 +110,9 @@ ul,li{list-style: none;}
             this.loadCatalog();
             if(sessionStorage["theme"]){
                 this.theme=sessionStorage["theme"];
+            }
+            if(sessionStorage["userType"]){
+                this.userType=sessionStorage["userType"];
             }
             //栏目修改
             this.$on("catalogChange",()=>{
@@ -135,7 +145,13 @@ ul,li{list-style: none;}
         },
         methods:{
             navigate:function (name){
+                this.selectedIds=[];
                 this.$router.push(name);
+            },
+            logout(){
+               this.httpRequest("/admin/login.logout",{}).then( ()=>{
+                    location.href="/admin/index.html"
+                })
             },
             goBack:function (){
                 this.$router.back(-1);

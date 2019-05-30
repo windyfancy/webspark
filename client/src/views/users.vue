@@ -124,7 +124,7 @@
                     id:row.id,
                     userName:row.userName,
                     nickName:row.nickName,
-                    type:row.type
+                    type:row.type.toString()
                 }; 
                 this.editVisible=true;
 

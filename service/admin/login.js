@@ -3,11 +3,11 @@ var crypto = require('crypto');
 module.exports= {  
     onLoad() {  
         var data=this.request.data;
-        if(data){
+        if(data &&  Object.keys(data).length>0){
             var password=crypto.createHash('md5').update(data.password).digest("hex");
 
             this.database.select("wb_user",{
-                type:1,
+                type:[1,2],
                 userName:data.userName,
                 password:password
             }).then(async (result)=>{
@@ -39,5 +39,9 @@ module.exports= {
             })
         }
         
+    },
+    async logout(){
+        await this.session.clear();
+        this.response.body=JSON.stringify({code:"OK"})
     }
   }

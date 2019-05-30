@@ -58,7 +58,8 @@
               if(e.code=="OK"){
                  
                 sessionStorage["userName"]=e.userName;
-  
+                sessionStorage["theme"]=e.theme;
+                this.$parent.theme==e.theme;
                 this.$parent.isLogined=true;
                 setTimeout(() => {
                   this.$router.push("/home")

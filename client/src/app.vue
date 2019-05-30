@@ -3,7 +3,6 @@ html,body{height:100%;margin:0px;padding:0px;}
 ul,li{list-style: none;}
 .wrap{
     height:100%;
-    background: white;
     overflow: auto;
 }
 .leftMenu{
@@ -13,13 +12,15 @@ ul,li{list-style: none;}
     height:100%;
     padding:10px 15px;
     line-height:25px;
-    background: whitesmoke;
+    /*background: whitesmoke;*/
+    border-right: 1px solid #dcf0f9;
+
 }
 .main{
     margin:15px;
     overflow:hidden;
     float:left;
-
+    background: white;
     width: calc(100% - 240px)
 }
 .header{
@@ -28,7 +29,7 @@ ul,li{list-style: none;}
     height:50px;
     font-size: 24px;
     color:black;
-    background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 60%,#fff),linear-gradient(70deg,#dbedff 32%,#ebfff0);
+    /*background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 60%,#fff),linear-gradient(70deg,#dbedff 32%,#ebfff0);*/
     /*background: linear-gradient(to right,#01aab4,#007cdb);*/
 
     /*background-image: linear-gradient(to right,#1278f6,#00b4aa);*/
@@ -54,7 +55,9 @@ ul,li{list-style: none;}
 }
 </style>
 <template>
+
 <div class="wrap">
+<link rel="stylesheet" type="text/css" :href="'/themes/'+theme+'/css/skin.css'"/>
 <div class="header">后台管理<span> webcontext,the most simplest node.js web framework</span></div>
 <ul class="leftMenu" v-if="showNav">
 <li><a-icon type="edit" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
@@ -84,14 +87,17 @@ ul,li{list-style: none;}
        
         data () {
             return {
+                theme:"default",
                 isLogined:false,
                 catalogTree:[]
             }
             
         },
         created:function (){
-             this.loadCatalog();
-            
+            this.loadCatalog();
+            if(sessionStorage["theme"]){
+                this.theme=sessionStorage["theme"];
+            }
             //栏目修改
             this.$on("catalogChange",()=>{
                 this.loadCatalog();
@@ -100,6 +106,11 @@ ul,li{list-style: none;}
             this.$on("articleCountChange",(params)=>{
                 //params:{catalog:[1,2],tag:[4,5]}
                 this.updateCount(params);
+            })
+
+            this.$on("themeChange",(e)=>{
+                sessionStorage["theme"]=e.value;
+                this.theme=e.value;
             })
         },
         computed:{

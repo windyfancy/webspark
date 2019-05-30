@@ -5,7 +5,8 @@ a{
 body{
     background-image: url(../images/bg.jpg);
     background-attachment:fixed;
-    background-size: contain;
+    background-size: cover;
+    background-position: center center;
 }
 .container {
     background-color:#ffffffe5;

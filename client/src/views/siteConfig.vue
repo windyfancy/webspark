@@ -63,6 +63,7 @@
                  
                 this.httpRequest("/admin/config.setTheme",{theme:key}).then(  (res)=>{
                         if(res){
+                            this.$parent.$emit("themeChange",{value:key})
                             this.loadData();
                         } 
                 })

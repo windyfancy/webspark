@@ -5,7 +5,8 @@ a{
 body{
     background-image: url(../images/bg.jpg);
     background-attachment:fixed;
-    background-size: contain;
+    background-size: cover;
+    background-position: center center;
 }
 .container {
     background-color:#ffffffe5;
@@ -23,6 +24,9 @@ body{
     width: 90%;
     margin: auto;
     position: relative;
+}
+.leftMenu{
+    border-right: 0px solid #dcf0f9;
 }
 .tagItem{
     background: #42c02e;

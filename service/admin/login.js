@@ -10,14 +10,22 @@ module.exports= {
                 type:1,
                 userName:data.userName,
                 password:password
-            }).then((result)=>{
+            }).then(async (result)=>{
                if(result.length>0){
                    var userName=result[0].userName;
                    var type=result[0].type;
-                   this.session.set({"userName":userName,"userType":type}).then(()=>{
+                   var theme="default";
+                   var configList=await this.database.select("wb_config");
+                   configList.forEach((item)=>{
+                        if(item.configKey=="theme"){
+                            theme=item.configValue;
+                        }
+                   })
+                   var obj={"userName":userName,"userType":type,"theme":theme};
+                   this.session.set(obj).then(()=>{
                         this.render(JSON.stringify({
                             code:"OK",
-                            userName:userName
+                            ...obj
                         }));
                    })
         

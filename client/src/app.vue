@@ -35,9 +35,11 @@ ul,li{list-style: none;}
     /*background-image: linear-gradient(to right,#1278f6,#00b4aa);*/
 }
 .header span{
-    padding-left:10px;
-    font-size:12px;
-    color:whitesmoke;
+    margin-left:10px;
+    padding:2px 10px;
+    font-size:14px;
+    border:1px solid white; /* #2d8cf0*/
+    border-radius: 2em;
     vertical-align: middle;
 }
 .leftMenu li{
@@ -58,7 +60,11 @@ ul,li{list-style: none;}
 
 <div class="wrap">
 <link rel="stylesheet" type="text/css" :href="'/themes/'+theme+'/css/skin.css'"/>
-<div class="header">后台管理<span> webcontext,the most simplest node.js web framework</span></div>
+<div class="header">后台管理<span>   
+    <a-icon type="github" />
+    <a href="https://github.com/windyfancy/webcontext" target="_blank">webcontext</a>
+    </span>
+    </div>
 <ul class="leftMenu" v-if="showNav">
 <li><a-icon type="edit" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
 <div style="padding-left:12px;">

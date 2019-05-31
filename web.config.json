@@ -30,6 +30,11 @@
             "layout":"default",
             "style":"green"
         },
+        "lightgreen":{
+            "name":"翠绿",
+            "layout":"default",
+            "style":"lightgreen"
+        },
         "sunset":{
             "name":"落日余晖",
             "layout":"default",

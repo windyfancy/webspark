@@ -1,0 +1,33 @@
+<div>
+    <textarea id="txt_comment" maxlength="512"></textarea> <button id="btn_comment" aid="<%=articleId%>">评论</button>
+    <ul>
+        
+    <%for(var i=0;i<commentList.length;i++){%>
+        <li>
+            <div>
+               <span class="user"></span>
+                <%=commentList[i].author%>-<%=this.server.getRelativeDate(new Date(commentList[i].createTime))%></div>
+            <div>
+            <%=commentList[i].content%>
+            </div>
+        </li>
+    <%}%>
+    </ul>   
+
+    <script>
+         
+        $("#btn_comment").click (function (){
+            var articleId=$(this).attr("aid");
+            var content=$("#txt_comment").val();
+            $.post("/comment.add",{
+                articleId:articleId,
+                content:content
+            },function (e){
+                debugger;
+                if(e.code=="NotLogin"){
+                    alert("请登录")
+                }
+            })
+        })
+    </script>
+</div>

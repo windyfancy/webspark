@@ -28,27 +28,32 @@ module.exports= {
         var data=this.request.data;
 
         if(data.catalog && data.catalog.length>0){
-  
+
                 var catalogIdList=data.catalog.join(",")
-                var sql=`update wb_catalog t join 
-                (SELECT  catalogId,count(a.id) as count FROM wb_article a  where catalogId in(${catalogIdList}) group by a.catalogId) as c
-                on (t.id=c.catalogId) set t.count=c.count  where catalogId in (${catalogIdList})`
-                await this.database.query(sql,[])
+                var sql=`SELECT  catalogId,count(a.id) as count FROM wb_article a  where catalogId in(${catalogIdList}) group by a.catalogId`
+                var result=await this.database.query(sql,[]);
+                var plist=[];
+                result.forEach((row)=>{
+                    let p=this.database.update("wb_catalog",{count:row.count},{id:row.catalogId});
+                    plist.push(p);
+                })
 
                 if(data.tag){
        
                     var tagIdList=data.tag.join(",")
 
-                    var sql=`update wb_tag t join 
-                    (SELECT a.tagId,b.title,count(a.id) as count FROM wb_article_tag a inner join wb_article b  on (a.articleId=b.id) where tagId in (${tagIdList}) group by a.tagId) as c
-                    on (t.id=c.tagId) set t.count=c.count where tagId in (${tagIdList})`;
+                    var sql=`SELECT a.tagId as tagId,count(a.id) as count FROM wb_article_tag a inner join wb_article b  on (a.articleId=b.id) where tagId in (${tagIdList}) group by a.tagId`;
 
-                    await this.database.query(sql,[]);
+                    var result=await this.database.query(sql,[]);
+                    result.forEach((row)=>{
+                        let p=this.database.update("wb_tag",{count:row.count},{id:row.tagId});
+                        plist.push(p);
+                    })
                 }
-    
-                this.render(JSON.stringify({code:"OK"}));
-                    
- 
+                Promise.all(plist).then( ()=>{
+                    this.render(JSON.stringify({code:"OK"}));
+                })
+                
             
         }
         

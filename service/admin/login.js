@@ -12,6 +12,7 @@ module.exports= {
                 password:password
             }).then(async (result)=>{
                if(result.length>0){
+                   var userId=result[0].id;
                    var userName=result[0].userName;
                    var type=result[0].type;
                    var theme="default";
@@ -21,7 +22,7 @@ module.exports= {
                             theme=item.configValue;
                         }
                    })
-                   var obj={"userName":userName,"userType":type,"theme":theme};
+                   var obj={"userId":userId,"userName":userName,"userType":type,"theme":theme};
                    this.session.set(obj).then(()=>{
                         this.render(JSON.stringify({
                             code:"OK",

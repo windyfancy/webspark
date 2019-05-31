@@ -1,18 +1,19 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="<%='/'+ themeDir+'/css/global.css'%>"/>
+        <script src="/libs/zepto.min.js"></script>
     </head>
    <body>
         <%- include("header.ejs") %>
 <div class="container">
    
     <div class="main">
-            <% var article=articleList[0];{%>
-                <div>
-                    <h2><%=article.title%></h2>
-                    <div class="markdown"><%-article.content%></div>
-                </div>
-            <%}%>
+            <% var article=articleList[0];%>
+            <div>
+                <h2><%=article.title%></h2>
+                <div class="markdown"><%-article.content%></div>
+            </div>
+            <%- include("comment.ejs") %>
 
     </div>
     <%- include("sidebar.ejs") %>

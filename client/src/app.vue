@@ -68,7 +68,7 @@ ul,li{list-style: none;}
     <a-icon type="github" />
     <a href="https://github.com/windyfancy/webcontext" target="_blank">webcontext</a>
     </span>
-<a href="javascript:" @click="logout" class="logout">退出</a>
+<a href="javascript:" @click="logout" class="logout" v-if="isLogined">退出</a>
 </div>
 <ul class="leftMenu" v-if="showNav">
 <li><a-icon type="edit" /><a href="javascript:" @click="navigate('articleList')">文章管理</a>
@@ -107,7 +107,10 @@ ul,li{list-style: none;}
             
         },
         created:function (){
-            this.loadCatalog();
+             
+            if(sessionStorage["userName"]){
+                this.isLogined=true;
+            }
             if(sessionStorage["theme"]){
                 this.theme=sessionStorage["theme"];
             }
@@ -139,8 +142,11 @@ ul,li{list-style: none;}
             
         },
         watch:{
-            isLogined:function (){
-                this.loadCatalog();
+            isLogined:function (v){
+                debugger;
+                if(v){
+                    this.loadCatalog();
+                }
             }
         },
         methods:{
@@ -150,6 +156,7 @@ ul,li{list-style: none;}
             },
             logout(){
                this.httpRequest("/admin/login.logout",{}).then( ()=>{
+                    sessionStorage.clear();
                     location.href="/admin/index.html"
                 })
             },
@@ -169,6 +176,7 @@ ul,li{list-style: none;}
             loadCatalog(){
                 this.httpRequest("/admin/catalog.list",{}).then(  (result)=>{
                     this.catalogList=result;
+                    debugger;
                     this.buildTree(result)
                 });
 
@@ -184,21 +192,23 @@ ul,li{list-style: none;}
             buildTree(data){
                 function findChild(parentId){
                     var result=[];
-                    data.forEach((item)=>{
-                        var obj={id:item.id,key:item.id,title:item.title };
-                        if(item.parentId==parentId){
-                            result.push(obj)
-                        }
-                        
-                    })
-                    result.forEach((item)=>{
-                        let child=findChild(item.id);
-                        if(child && child.length>0){
-                            item.children=child;
-                        }else{
-                            item.isLeaf=true;
-                        }
-                    })
+                    if(data && Array.isArray(data)){
+                        data.forEach((item)=>{
+                            var obj={id:item.id,key:item.id,title:item.title };
+                            if(item.parentId==parentId){
+                                result.push(obj)
+                            }
+                            
+                        })
+                        result.forEach((item)=>{
+                            let child=findChild(item.id);
+                            if(child && child.length>0){
+                                item.children=child;
+                            }else{
+                                item.isLeaf=true;
+                            }
+                        })
+                    }
                     
                     return result;
 

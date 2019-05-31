@@ -23,6 +23,9 @@ module.exports= {
 
         if(data.articleList){
             var sql="replace into wb_article_tag (articleId,tagId) values ";
+            if(this.config["database"]["type"]=="sqlite"){
+                sql="insert or "+sql;
+            }
             data.articleList.forEach((articleId)=>{
                 sql+="("+articleId+","+data.tagId+"),";
             });

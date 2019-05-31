@@ -41,8 +41,8 @@ module.exports= {
             })
 
             var p5=ctx.database.select("wb_config");
-
-            Promise.all([p1,p2,p3,p4,p5]).then( (results)=>{
+            var p6=ctx.session.load();
+            Promise.all([p1,p2,p3,p4,p5,p6]).then( (results)=>{
                 var arr=results[4].filter(function (item){
                     return item.configKey=="theme"
                 });
@@ -54,12 +54,14 @@ module.exports= {
 
                 var renderObj={
                     context:ctx,
+                    userInfo:null,
                     layoutDir:"themes/"+themeItem.layout,
                     themeDir:"themes/"+themeItem.style,
                     catalogList:results[0],
                     tagList:results[1],
                     articleList:results[3].rows,
                     articleCount:results[3].totalCount
+
                 }
 
                 
@@ -88,7 +90,13 @@ module.exports= {
                 })
                 renderObj.linkList=links;
         
-  
+                let session=results[5];
+
+                if(session["userName"]){
+                    renderObj["userInfo"]=session;
+                }
+
+
                 resolve(renderObj);
             })
   

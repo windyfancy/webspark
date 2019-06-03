@@ -24,11 +24,24 @@ module.exports= {
     })
 
   },
-  delete(){
+  async delete(){
     var data=this.request.data;
-    this.database.delete("wb_comment",{articleId:data.articleId}).then(()=>{
-      this.render(JSON.stringify({code:"OK"}))
-    })
+    let session=await this.session.load();
+    if(session.userType==1){
+      this.database.delete("wb_comment",{id:data.id}).then(()=>{
+        this.render(JSON.stringify({code:"OK"}))
+      })
+    }else{
+      this.database.delete("wb_comment",{id:data.id,userId:session.userId}).then(()=>{
+        this.render(JSON.stringify({code:"OK"}))
+      })
+    }
   }
+  // async checkAllow(){
+  //   let session=await this.session.load();
+  //   if(session.userType==1){
+  //     return true;
+  //   }
+  // }
 
 }

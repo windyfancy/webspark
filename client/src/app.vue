@@ -17,11 +17,12 @@ ul,li{list-style: none;}
 
 }
 .main{
-    margin:15px;
+    padding:15px;
     overflow:hidden;
     float:left;
-    background: white;
-    width: calc(100% - 240px)
+    background: #ffffffe5;
+    width: calc(100% - 210px);
+    height:100%;
 }
 .header{
     padding-left:10px;

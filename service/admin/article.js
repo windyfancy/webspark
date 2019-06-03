@@ -46,11 +46,14 @@ module.exports= {
     edit() {  
         var data=this.request.data;
         if(data.createTime){
-            data.createTime=new Date(data.createTime);
+            data.createTime=new Date(data.createTime).toUTCString();
         }
         if(data.modifyTime){
-            data.modifyTime=new Date(data.modifyTime);
+            data.modifyTime=new Date(data.modifyTime).toUTCString();
         }
+        data.userId=this.sessionData["userId"];
+        data.author=this.sessionData["userName"];
+
         this.database.replace("wb_article",data).then((e)=>{
             
             this.render(JSON.stringify(e));

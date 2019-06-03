@@ -27,6 +27,13 @@ body{
 }
 .leftMenu{
     border-right: 0px solid #dcf0f9;
+    color: #fafafa !important;
+}
+.leftMenu a,.leftMenu span{
+    color: #fafafa !important;
+}
+.leftMenu i{
+    color: #faad14;
 }
 .tagItem{
     background: #42c02e;

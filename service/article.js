@@ -16,6 +16,7 @@ module.exports= {
               headerIds: false,
               renderer: renderer
             });
+            renderObj.title=article.title;
             renderObj.articleId=aid;
             renderObj.commentList=await this.getCommentList()
 

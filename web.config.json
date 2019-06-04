@@ -13,6 +13,7 @@
         "type":"sqlite",
         "database":"./database/spark.db"
     },
+    "siteTitle":"webspark博客系统",
     "themesList":{
         "default":{
             "name":"云淡风清(默认)",

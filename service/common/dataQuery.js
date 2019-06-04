@@ -54,6 +54,7 @@ module.exports= {
 
                 var renderObj={
                     context:ctx,
+                    title:ctx.config["siteTitle"],
                     userInfo:null,
                     layoutDir:"themes/"+themeItem.layout,
                     themeDir:"themes/"+themeItem.style,

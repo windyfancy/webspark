@@ -144,7 +144,6 @@ ul,li{list-style: none;}
         },
         watch:{
             isLogined:function (v){
-                debugger;
                 if(v){
                     this.loadCatalog();
                 }
@@ -177,7 +176,6 @@ ul,li{list-style: none;}
             loadCatalog(){
                 this.httpRequest("/admin/catalog.list",{}).then(  (result)=>{
                     this.catalogList=result;
-                    debugger;
                     this.buildTree(result)
                 });
 

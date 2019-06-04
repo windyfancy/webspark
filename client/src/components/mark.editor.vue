@@ -48,7 +48,7 @@
                 <li><a href="javascript:" @click="insertCode('code')">代码</a></li>
                 <li><a href="javascript:" @click="insertCode('table')">表格</a></li>
                 <li style="position:relative"><a href="javascript:" @click="insertCode('image')">图片</a>
-                    <MarkUpload :uploadUrl="uploadUrl" @progress="uploadProgress" @complete="uploadComplete"> </MarkUpload>
+                    <MarkUpload ref="upload" :uploadUrl="uploadUrl" @progress="uploadProgress" @complete="uploadComplete"> </MarkUpload>
                 </li>
             </ul>
         </div>
@@ -94,6 +94,12 @@
                  
                 this.$emit('input', val);
             }
+        },
+        mounted(){
+           
+            const textarea = this.$refs.textarea;
+            const uploadComponent = this.$refs.upload;
+            uploadComponent.watchParseImage(textarea);
         },
 
         methods: {

@@ -49,9 +49,31 @@
         computed: {
         },
         methods: {
+            watchParseImage(textarea){
+                textarea.addEventListener('paste', ( event )=>{
+                    
+                    var items = (event.clipboardData && event.clipboardData.items) || [];
+                    var file = null;
+                
+                    if (items && items.length) {
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].type.indexOf('image') !== -1) {
+                                var file=items[i].getAsFile();
+                                this.uploadFile(file);
+                                break;
+                            }
+                        }
+                    
+                    }
+                });
+            },
             fileSelect(e){
-                var self=this;
+                
                 var file=event.target.files[0];
+                this.uploadFile(file);
+            },
+            uploadFile(file){
+                var self=this;
                 var url = this.uploadUrl;
                 var xhr=new XMLHttpRequest();
                 xhr.upload.onprogress = function (e) {
@@ -62,7 +84,6 @@
                 }
                 xhr.onreadystatechange = function (oEvent) {
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                        debugger;
                         var responseText = xhr.responseText;
                         self.$emit("complete",{response:responseText});
                         

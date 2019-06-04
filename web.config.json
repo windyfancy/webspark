@@ -10,9 +10,8 @@
         "port":"3306",
         "user":"root",
         "password":"windyfancy123",
-        "database2":"todo_db",
         "type":"sqlite",
-        "database":"./database/webspark.db"
+        "database":"./database/spark.db"
     },
     "themesList":{
         "default":{

@@ -122,7 +122,8 @@ import MarkEditor from '../components/mark.editor.vue';
                         }
                     });
                 }
-                if(this.$route.query["catalogId"]){
+                 
+                if(this.$route.query["catalogId"] && this.$route.query["catalogId"]!="null"){
                     this.catalogId=Number(this.$route.query["catalogId"]);
                 }
             },

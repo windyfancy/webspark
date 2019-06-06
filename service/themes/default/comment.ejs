@@ -12,7 +12,7 @@
                <span class="user"></span>
                <span> <%=commentList[i].author%>-<%=this.server.getRelativeDate(new Date(commentList[i].createTime))%></span>
                 
-               <% if(commentList[i].userId==userInfo.userId || userInfo.userType==1){%>
+               <% if(userInfo && (commentList[i].userId==userInfo.userId || userInfo.userType==1)){%>
                <span><a href="javascript:deleteComment(<%=commentList[i].id%>)">[delete]</a></span>
                <%}%>
             </div>

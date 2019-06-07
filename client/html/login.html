@@ -28,17 +28,50 @@
             box-sizing: border-box;
             cursor: pointer;
         }
+        .errorMsg{
+            color:red;
+        }
         </style>
+        <script src="/js/zepto.min.js"></script>
+
     </head>
 <body>
     <div>
+        <div class="row errorMsg"></div>
+        <div class="row"><input id="userName" maxlength="64" placeholder="请输入用户名" class="input"> </div>
         
-        <div class="row"><input name="userName" maxlength="64" placeholder="请输入用户名" class="input"> </div>
-        
-        <div class="row"><input name="password" type="password" maxlength="64" placeholder="请输入密码" class="input"> </div>
+        <div class="row"><input id="password" type="password" maxlength="64" placeholder="请输入密码" class="input"> </div>
     
-        <div class="row"><button   class="btn">登录</button></div>
+        <div class="row" style="margin-top:20px;"><button id="btn_login"  class="btn">登录</button></div>
     </div>
 </body>
+
+<script>
+
+function doLogin(){
+    var params={
+        userName:$("#userName").val(),
+        password:$("#password").val()
+    }
+    if(params.userName=="" || params.password==""){
+        $(".errorMsg").html("用户名密码不能为空")
+        return ;
+    }
+    $.post("/admin/login",params,function (e){
+        if(e.code=="OK"){
+            //parent.Dialog.close();
+            parent.location.reload()
+        }else{
+            $(".errorMsg").html(e.msg)
+        }
+    })
+}
+$(function (){
+    $("#btn_login").click(function (){
+        doLogin();
+    }
+    );
+})
+</script>
 
 </html>

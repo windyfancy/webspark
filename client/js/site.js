@@ -80,8 +80,14 @@ var Dialog = {
 
 
 function showLogin(){
-    Dialog.show({title:"登录",src:"/html/login.html",height:"240"})
+    Dialog.show({title:"登录",src:"/html/login.html",height:"270"})
 }
 function showRegister(){
-    Dialog.show({title:"注册",src:"/html/register.html",height:"300"})
+    Dialog.show({title:"注册",src:"/html/register.html",height:"350"})
+}
+
+function logout(){
+    $.post("/admin/login.logout",{},function (e){
+        window.location.reload();
+    });
 }

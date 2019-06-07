@@ -46,7 +46,12 @@
  
         },
         created:function (){
-            var self=this;
+
+            this.httpRequest("/admin/login.restore",{}).then(  (e)=>{
+              if(e.code=="OK"){
+                this.prepareRedirect(e)
+              }
+            })
         },  
         methods:{
           doLogin(){
@@ -56,7 +61,14 @@
             }
             this.httpRequest("/admin/login",params).then(  (e)=>{
               if(e.code=="OK"){
-                 
+                this.prepareRedirect(e)
+              }else{
+                alert(e.msg)
+              }
+            })
+          },
+          prepareRedirect(e){
+   
                 sessionStorage["userName"]=e.userName;
                 sessionStorage["userType"]=e.userType;
                 sessionStorage["theme"]=e.theme;
@@ -68,10 +80,6 @@
                   this.$router.push("/home")
                 }, 100);
                 
-              }else{
-                alert(e.msg)
-              }
-            })
           }
         }
     };

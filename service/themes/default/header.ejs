@@ -10,7 +10,16 @@
         <%}%>
         </span>
         <div class="login">
-            <a href="/admin/index.html">登录</a>
+            <% if(userInfo && userInfo.userName){%>
+                <%=userInfo.userName%>
+                <% if(userInfo.userType<10){%>
+                        -<a href="/admin/index.html">管理</a>
+                <% }%>
+                &nbsp;<a href="javascript:logout()">退出</a>
+            <% }else{ %>
+                <a href="javascript:showRegister()">注册</a>
+                <a href="javascript:showLogin()">登录</a>
+            <% }%>
         </div>
     </div>
 

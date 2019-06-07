@@ -7,7 +7,7 @@ module.exports= {
             var password=crypto.createHash('md5').update(data.password).digest("hex");
 
             this.database.select("wb_user",{
-                type:[1,2],
+                type:[1,2,10],
                 userName:data.userName,
                 password:password
             }).then(async (result)=>{
@@ -32,14 +32,31 @@ module.exports= {
         
                }else{
                     this.render(JSON.stringify({
-                        code:"Error",
-                        msg:"username or password is not correct"
+                        code:"Password_Error",
+                        msg:"用户名或密码不正确"
                     }));
                }
                 
             })
         }
         
+    },
+    restore(){
+        this.session.load().then((session)=>{
+            if(session.userId){
+                var obj={"userId":session.userId,"userName":session.userName,"userType":session.userType,"theme":session.theme};
+                
+                this.render(JSON.stringify({
+                    code:"OK",
+                    ...obj
+                }));
+            }else{
+                this.render(JSON.stringify({
+                    code:"Error" 
+                }));
+            }
+            
+        });
     },
     async logout(){
         await this.session.clear();

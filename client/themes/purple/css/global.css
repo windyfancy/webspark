@@ -119,7 +119,18 @@ width:100%;
 .comment_add textarea:focus{
     border:1px solid #6699cc;
 }
-
+.dialogTitle{
+    background: white;
+    height:30px;line-height: 30px;
+    overflow: hidden;
+    font-size: 18px;
+    padding:10px;
+}
+.dialogTitle .close{
+    float:right;
+     
+    font-size: 25px;
+}
 /* markdown support*/
 
 .markdown hr {

@@ -19,7 +19,7 @@ module.exports= {
                 pageIndex=ctx.request.query["page"];
             }
 
-            var sql=`select a.id,title,summary,$content (select group_concat(tagId) from wb_article_tag b where b.articleId=a.id) as tagList 
+            var sql=`select a.id,title,thumbnail,author,createTime,summary,$content (select group_concat(tagId) from wb_article_tag b where b.articleId=a.id) as tagList 
             FROM wb_article a`
 
             if(options.articleId){ //查询单篇文章

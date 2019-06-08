@@ -77,7 +77,16 @@ width:100%;
     line-height: 30px;
     padding:0px 5px;
 }
-
+.thumbnail{
+    width: 120px;
+    float: right;
+    margin: 12px;
+}
+.artile_info{
+    font-size:12px;
+    color:#b2bac2;
+    line-height: 40px;
+}
 
 .sidebar{
     text-align:left;

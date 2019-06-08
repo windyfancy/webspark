@@ -2,8 +2,16 @@
 for(var i=0;i<rows.length;i++){%>
     <div class="list_item" articleId="<%=rows[i].id%>">
         <h2><a href="<%= '/article?id='+rows[i].id%>"><%=rows[i].title%></a></h2>
-        <div><%=rows[i].summary%></div>
         <div>
+            <%if(rows[i].thumbnail ){%>
+                <img src='<%=rows[i].thumbnail%>' class="thumbnail">
+            <% }%>
+            
+            <%=rows[i].summary%>
+
+        </div>
+        <div class="artile_info">
+                <%=rows[i].author %> -<%=rows[i].createTime?this.server.getRelativeDate(new Date(rows[i].createTime)):""%></span>
             <% 
             if(rows[i].tagList){
             var tagArr=rows[i].tagList.split(",")

@@ -5,6 +5,10 @@
 .line{
     line-height:50px;
 }
+.upload_thumbnail{
+    position: absolute;
+    right:18px;
+}
 </style>
 <template>
 <div>
@@ -13,14 +17,34 @@
   
  </a-breadcrumb>
 </p>
-<p class="line" >标题：<a-input type="text" v-model="title" style="width:320px"/></p>
+<div class="upload_thumbnail">
+<a-upload
+    name="file"
+    listType="picture-card"
+    class="avatar-uploader"
+    :showUploadList="false"
+    :action="uploadUrl"
+    :beforeUpload="beforeUpload"
+    @change="thumbnailChange"
+  >
+    <img v-if="thumbnail" :src="thumbnail" style="width:100px;" alt="封面" />
+    <div v-else>
+        <a-icon :type="loading ? 'loading' : 'plus'" />
+        <div class="ant-upload-text">上传封面</div>
+    </div>
+  </a-upload>
+</div>
+<p class="line" >
+    标题：
+    <a-input type="text" v-model="title" style="width:320px"/></p>
+
 <p class="line">
     栏目：    
 <a-select v-model="catalogId" style="width:200px">
         <a-select-option v-for="item in catalogList" :value="item.id" :key="item.id">{{ item.title }}</a-select-option>
 </a-select>
 
-
+ <a-checkbox v-model="status" style="margin-left:10px;">是否发布</a-checkbox> 
 
 </p>
 <p>
@@ -39,7 +63,10 @@
     
 </div>
 
-<p><a-button type="primary" @click="doSave">发布</a-button></p>
+<p>
+    <a-button type="primary" @click="doSave">发布</a-button>
+     
+    </p>
 
 </div>
 </template>
@@ -57,6 +84,8 @@ import MarkEditor from '../components/mark.editor.vue';
                 ],
                 articleId:null,
                 title:"",
+                thumbnail:null,
+                status:true,
                 uploadUrl:"/admin/uploadFiles",
                 catalogIdOrigin:null,
                 catalogId:null,
@@ -111,6 +140,8 @@ import MarkEditor from '../components/mark.editor.vue';
                             this.title=row.title;
                             this.catalogId=row.catalogId;
                             this.catalogIdOrigin=row.catalogId;
+                            this.thumbnail=row.thumbnail;
+                            this.status=row.status==1?true:false;
                             this.content=row.content;
                            
                             var catalogInfo=this.catalogList.filter((item)=>{
@@ -163,12 +194,16 @@ import MarkEditor from '../components/mark.editor.vue';
                     catalogId:this.catalogId,
                     content:this.content,
                     summary:summary,
+                    status:this.status?1:0,
                     modifyTime:new Date()
                 }
                 if(this.articleId){
                     params.id=this.articleId;
                 }else{
                     params.createTime=new Date();
+                }
+                if(this.thumbnail){
+                    params.thumbnail=this.thumbnail;
                 }
                 
                 this.httpRequest("/admin/article.edit",params).then( async (e)=>{
@@ -222,6 +257,21 @@ import MarkEditor from '../components/mark.editor.vue';
             uploadComplete(e){
                 var obj=JSON.parse(e.response)
                  e.returnValue="/getFiles?name="+obj.fileName;
+            },
+            thumbnailChange(info){
+                debugger;
+ 
+                if (info.file.status === 'uploading') {
+                    this.loading = true
+                    return
+                }
+                if (info.file.status === 'done') {
+                    var url=info.file.response.fileName
+                    this.thumbnail = "/getFiles?name="+url
+                    this.loading = false
+                    
+                }
+                 
             }
         }
     };

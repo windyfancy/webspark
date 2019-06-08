@@ -6,7 +6,7 @@ module.exports= {
     list(){
         var data=this.request.data;
         var params={};
-        var sql=`select a.id,title,catalogId,summary,$content (select group_concat(tagId) from wb_article_tag b where b.articleId=a.id) as tagList 
+        var sql=`select a.id,title,thumbnail,status,catalogId,summary,$content (select group_concat(tagId) from wb_article_tag b where b.articleId=a.id) as tagList 
             FROM wb_article a`
         if(data.id){
             params={id:data.id};

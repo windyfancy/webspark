@@ -129,10 +129,9 @@
                
             },
             handleDelete(row, index){ 
-                this.deleteItems(row);
+                this.deleteItems(row.id);
             },
             deleteItems(row){
-                debugger;
                 var rows=[];
                 if(row){
                     rows=[row]
@@ -140,7 +139,6 @@
                     rows=this.selectedIds;
                 }
                 this.$confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
-                    debugger;
                     var params={id:rows};
         
                     this.httpRequest("/admin/article.delete",params).then(  (e)=>{
@@ -191,7 +189,6 @@
                 });
             },
             updateCount(){
-                debugger;
                 var catalogSet=new Set(),tagSet=new Set();
                 var rows=this.selectedList;
                 rows.forEach((item)=>{

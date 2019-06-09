@@ -12,7 +12,7 @@
   node -e "require('webspark')"
  ```
 
-访问：http://localhost/
+访问：http://localhost:8000/
 
 
 

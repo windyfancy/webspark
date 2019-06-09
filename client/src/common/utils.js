@@ -1,6 +1,6 @@
 var Utils={
     httpRequest: function (url, data, options) {
-        url="http://localhost"+url
+        //url="http://localhost"+url
         let type = "post";
         if(typeof data=="object"){
             data=JSON.stringify(data);

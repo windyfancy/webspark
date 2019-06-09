@@ -1,6 +1,6 @@
 {
   "name": "webspark",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "run.js",
   "dependencies": {
     "ant-design-vue": "^1.3.8",

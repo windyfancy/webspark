@@ -14,6 +14,8 @@ module.exports= {
                 theme: theme,
                 themesList:this.config.themesList
             }
+             
+            this.session.set({ "theme":theme});
             this.render(JSON.stringify(result,null,4));
         })
         

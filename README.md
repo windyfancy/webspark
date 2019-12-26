@@ -23,6 +23,22 @@ webspark是使用node.js开发的博客系统，支持 mysql,sqlite两种数据�
   node app.js
  ```
 
- # 界面截图
 
- ![](/windyfancy/webspark/blob/master/screenshot/1.png?raw=true)
+
+![home](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/1.png)
+ 
+![theme](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/2.png)
+ 
+![theme2](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/3.png)
+  
+![theme3](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/4.png)
+   
+![theme4](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/5.png)
+    
+![theme5](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/6.png)
+     
+![article](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/7.png)
+
+![theme6](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/8.png)
+
+![commet](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/9.png)

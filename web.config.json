@@ -7,9 +7,6 @@
     "clientDir": "client",
     "database":{ 
         "host":"127.0.0.1",
-        "port":"3306",
-        "user":"root",
-        "password":"windyfancy123",
         "type":"sqlite",
         "database":"./database/spark.db"
     },

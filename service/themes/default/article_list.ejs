@@ -11,7 +11,7 @@ for(var i=0;i<rows.length;i++){%>
 
         </div>
         <div class="artile_info">
-                <%=rows[i].author %> -<%=rows[i].createTime?this.server.getRelativeDate(new Date(rows[i].createTime)):""%></span>
+                <%=rows[i].author %> &nbsp;<%=rows[i].createTime?this.server.getRelativeDate(rows[i].createTime):""%></span>
             <% 
             if(rows[i].tagList){
             var tagArr=rows[i].tagList.split(",")

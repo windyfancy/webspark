@@ -26,3 +26,5 @@ webspark是使用node.js开发的博客系统，支持 mysql,sqlite两种数据�
  # 界面截图
 
  ![](https://raw.githubusercontent.com/windyfancy/webspark/master/screenshot/1.png)
+ 
+ ![](https://github.com/windyfancy/webspark/blob/master/screenshot/2.png?raw=true)

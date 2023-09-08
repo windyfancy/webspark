@@ -44,7 +44,7 @@
         },
         methods:{
             loadData(){
-                this.httpRequest("/admin/config.getThemes",{}).then(  (res)=>{
+                this.httpRequest("/admin/config:getThemes",{}).then(  (res)=>{
                     if(res){
                         this.listData=res.themesList;
                         this.currentTheme=res.theme;
@@ -61,7 +61,7 @@
             },
             setTheme(key){
                  
-                this.httpRequest("/admin/config.setTheme",{theme:key}).then(  (res)=>{
+                this.httpRequest("/admin/config:setTheme",{theme:key}).then(  (res)=>{
                         if(res){
                             this.$parent.$emit("themeChange",{value:key})
                             this.loadData();

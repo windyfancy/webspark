@@ -110,7 +110,7 @@
                     pageIndex:this.pageIndex,
                     pageSize:this.pageSize
                 };
-                this.httpRequest("/admin/user.list",params).then(  (result)=>{
+                this.httpRequest("/admin/user:list",params).then(  (result)=>{
                     this.totalCount=result.totalCount;
                     this.userList=result.rows;
                   });
@@ -132,14 +132,14 @@
             handleDisable(row, index){
                 if(row.status==1){
                     this.$confirm({title:"停用",content:"确实要停用此用户吗？",onOk:()=>{
-                        this.httpRequest("/admin/user.disable",{id:row.id,status:0}).then(  (e)=>{
+                        this.httpRequest("/admin/user:disable",{id:row.id,status:0}).then(  (e)=>{
     
                             this.$message.info("停用成功")
                             this.loadList();
                         });
                     }})
                 }else{
-                     this.httpRequest("/admin/user.disable",{id:row.id,status:1}).then(  (e)=>{
+                     this.httpRequest("/admin/user:disable",{id:row.id,status:1}).then(  (e)=>{
                             this.$message.info("启用成功")
                             this.loadList();
                       });

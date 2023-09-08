@@ -77,7 +77,7 @@
         methods:{
             loadList(){
                 let params={};
-                this.httpRequest("/admin/catalog.list",params).then(  (result)=>{
+                this.httpRequest("/admin/catalog:list",params).then(  (result)=>{
                     this.catalogList=result;
                 });
             },
@@ -93,7 +93,7 @@
             },
             handleDelete(row, index){
                 this.$confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
-                     this.httpRequest("/admin/catalog.delete",{id:row.id}).then(  (e)=>{
+                     this.httpRequest("/admin/catalog:delete",{id:row.id}).then(  (e)=>{
  
                         this.$message.info("删除成功")
                         this.loadList();
@@ -109,7 +109,7 @@
                     delete params.id;
                 }
                 
-                this.httpRequest("/admin/catalog.edit",params).then(  (e)=>{
+                this.httpRequest("/admin/catalog:edit",params).then(  (e)=>{
 
                     if(e.affectedRows>0){
                         this.$message.info("编辑成功")

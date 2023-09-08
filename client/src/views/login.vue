@@ -47,7 +47,7 @@
         },
         created:function (){
 
-            this.httpRequest("/admin/login.restore",{}).then(  (e)=>{
+            this.httpRequest("/admin/login:restore",{}).then(  (e)=>{
               if(e.code=="OK"){
                 this.prepareRedirect(e)
               }

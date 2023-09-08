@@ -91,11 +91,11 @@ module.exports= {
                 })
                 renderObj.linkList=links;
         
-                let session=results[5];
+                /*let session=results[5];
 
                 if(session["userName"]){
                     renderObj["userInfo"]=session;
-                }
+                }*/
 
 
                 resolve(renderObj);

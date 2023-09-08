@@ -84,7 +84,7 @@
                     pageIndex:this.pageIndex,
                     pageSize:this.pageSize
                 };
-                this.httpRequest("/admin/tag.list",params).then(  (result)=>{
+                this.httpRequest("/admin/tag:list",params).then(  (result)=>{
 
                     this.totalCount=result.totalCount;
                     this.tagList=result.rows;
@@ -102,7 +102,7 @@
             },
             handleDelete(row, index){
                 this.$confirm({title:"确认删除",content:"确实要删除此记录吗，删除不可恢复？",onOk:()=>{
-                     this.httpRequest("/admin/tag.delete",{id:row.id}).then(  (e)=>{
+                     this.httpRequest("/admin/tag:delete",{id:row.id}).then(  (e)=>{
  
                         this.$message.info("删除成功")
                         this.loadList();
@@ -122,7 +122,7 @@
                     delete params.id;
                 }
                  
-                this.httpRequest("/admin/tag.edit",params).then(  (e)=>{
+                this.httpRequest("/admin/tag:edit",params).then(  (e)=>{
                     if(e.affectedRows>0){
                         this.$message.info("编辑成功")
                         this.loadList();

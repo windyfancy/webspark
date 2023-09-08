@@ -155,7 +155,7 @@ ul,li{list-style: none;}
                 this.$router.push(name);
             },
             logout(){
-               this.httpRequest("/admin/login.logout",{}).then( ()=>{
+               this.httpRequest("/admin/login:logout",{}).then( ()=>{
                     sessionStorage.clear();
                     location.href="/admin/index.html"
                 })
@@ -174,17 +174,17 @@ ul,li{list-style: none;}
                 this.$router.replace({path:"/articleList",query:{id:key[0]}})
             },
             loadCatalog(){
-                this.httpRequest("/admin/catalog.list",{}).then(  (result)=>{
+                this.httpRequest("/admin/catalog:list",{}).then(  (result)=>{
                     this.catalogList=result;
                     this.buildTree(result)
                 });
 
-                this.httpRequest("/admin/tag.list",{}).then(  (result)=>{
+                this.httpRequest("/admin/tag:list",{}).then(  (result)=>{
                     this.tagList=result;
                 });
             },
             updateCount(obj){
-               this.httpRequest("/admin/catalog.stats",obj).then(  (result)=>{
+               this.httpRequest("/admin/catalog:stats",obj).then(  (result)=>{
                      
                 });
             },
